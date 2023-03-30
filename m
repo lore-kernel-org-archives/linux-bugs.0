@@ -1,53 +1,47 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B379455
-	for <bugs@lists.linux.dev>; Thu, 30 Mar 2023 19:22:05 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id cu4so14914313qvb.3
-        for <bugs@lists.linux.dev>; Thu, 30 Mar 2023 12:22:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680204124;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Iwlg4Ai6HXuIqd3CFyGXwkySATb4RiYFP61+SSP2yHk=;
-        b=FNHGGun54DPMQKxq5yMh8ZEovlExu9INS37J/w46zFtEVwEvz+j/dBiLDyGyuFcn6d
-         B5mOPSw+IQT5V0/ZnshJHNT3nyDRVuHRBZRbsodofDGmurzZYT8pigGJ79Unjhos5PJ9
-         j5OHwmP/ADe95fbGhRiAMRP7C+jd/b+z8tpp8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680204124;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Iwlg4Ai6HXuIqd3CFyGXwkySATb4RiYFP61+SSP2yHk=;
-        b=wjgWyIytQCpd42O0UAKgNhXxUXCwN6pyrfZqgJ/7FI6CKGpSqZ87hzyPEJgyCJO7Qg
-         ZD3JPzeU8xsU+PEk5EwWmkLs2S2le5SZ25vzyPNNd8fa1GXvPYnLOj5qYXFd4cAuGs73
-         nkji9zE/ezPn4+vVynfwfkKQudrUmirEZAi4bv8Hx2yFTEKl25/NdEXNBAmsXeVXfliu
-         sWkJHFw749vhlxP/SGUuKnClv1oG/lk19lkY4l9lsWE/w19vsFnvOYMSy3yq1h2QQCgy
-         1vew2iKF92sasVf+fwuUtsWnWRuxisDrXPyCpBqoqCs+H+AofDt+GG/GMU883QyAjzzg
-         WnjQ==
-X-Gm-Message-State: AAQBX9fZ8tjfOr7ekBY6OGqTduUJajbThxdeqPKdHhZM5B3YJoKnk/D5
-	Brsrn8rUYkfLg4Jf3wzXADspSBsX80lUmLOXjdE=
-X-Google-Smtp-Source: AKy350aDveFmsTFzSbqAi+7k+98zKqfA3e9EU7vQ/FE3l5rWG4j4HGCX8Mi5CQiCCb47n6qlfPifkw==
-X-Received: by 2002:a05:6214:1d23:b0:5a4:8fc0:e0d1 with SMTP id f3-20020a0562141d2300b005a48fc0e0d1mr36953763qvd.38.1680204123910;
-        Thu, 30 Mar 2023 12:22:03 -0700 (PDT)
-Received: from meerkat.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
-        by smtp.gmail.com with ESMTPSA id d70-20020a376849000000b007467a4d8691sm93588qkc.47.2023.03.30.12.22.03
-        for <bugs@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 12:22:03 -0700 (PDT)
-Date: Thu, 30 Mar 2023 15:22:01 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: bugs@lists.linux.dev
-Subject: Test delivery and start archive
-Message-ID: <20230330-ahead-grappling-a7eb8a451cd6@meerkat>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A61C9455
+	for <bugs@lists.linux.dev>; Thu, 30 Mar 2023 19:55:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF029C433D2;
+	Thu, 30 Mar 2023 19:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680206157;
+	bh=oITfsQvSr/7S6seXFR0AyJk5ZGwwe/AF63wLYdjj2AA=;
+	h=Reply-To:From:To:In-Reply-To:References:Subject:Date:From;
+	b=SRFOjxuso/Lo28CN+I9iuySbWjvpjttFXJ6xXbDyhAo78TprhSaiuvQPYGaFJyHKU
+	 nyo8CXDEyy8ePBg090mgT5zJ42WkmfrP4kGpcncZNN0Y8oX5RT+rPEwghjb/1Q1RvN
+	 +B/IgCkHTmWM1nHcZqlpu/5G1YckoYE+tkaWn/xQnJvmT9ysWebNASyP2lHRMZWpir
+	 wDkcCfxRPwrzOvKzpowJlHZmTZkfjBF2ja+Cdlyps6x55pM5X15OMRf7Do4oETu52L
+	 xrrjWlgbN/eHh5Pm/3WVK4ZRGb13t+7RvS7LOAqE1wZ/IskOTiXFHzINBWv00SVM9v
+	 CIU7FEt3VC0wA==
+Reply-To: mricon@kernel.org
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+From: "Kernel.org Bugbot" <bugbot@kernel.org>
+To: mricon@gmail.com, mricon@kernel.org, bugs@lists.linux.dev
+Message-ID: <20230330-b217274c2-e2a6110e5b8c@bugzilla.kernel.org>
+In-Reply-To: <20230330-b217274c0-ad25aa758c0d@bugzilla.kernel.org>
+References: <20230330-b217274c0-ad25aa758c0d@bugzilla.kernel.org>
+Subject: Re: Test bug for flag setting
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: peebz 0.1
+Date: Thu, 30 Mar 2023 19:55:56 +0000 (UTC)
 
-Initial message to test delivery and start the archive.
+mricon@kernel.org writes via Kernel.org Bugzilla:
 
--K
+Another comment added here.
+
+View: https://bugzilla.kernel.org/show_bug.cgi?id=217274#c2
+You can reply to this message to participate.
+-- 
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (peebz 0.1)
+
