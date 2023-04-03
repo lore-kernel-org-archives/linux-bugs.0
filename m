@@ -1,58 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1626FA1
-	for <bugs@lists.linux.dev>; Mon,  3 Apr 2023 14:29:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C60D1C4339B;
-	Mon,  3 Apr 2023 14:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680532140;
-	bh=1GAeGiLzhhg9kO9BbA811P7zGVpfnCMRVRii0AxeKqQ=;
-	h=From:To:Subject:Date:From;
-	b=MH3nQOGVHHF/LLX793XZR2UbS8RvP6CbYTCYlyXRjuYh0PBfeLB0ig6XqkGJOpOou
-	 g4yAvZJqtD8BSbrkMS/we0saSak093BC55b7MwrvC4Otj9eafvzIAQgDeYhXa7WZQ/
-	 fKGkVjYDwmxc06njPSMhy8QuNFSH+xlVyNh8oZ6LaSu3i5Xhyl3EXk6hKGvYJakP5Y
-	 lmCqVhGPb/cfvgoophV+sfbNxezZ3v2QLlkwyQK2b+hfooFictLo0fCvYR0ANg2Gro
-	 rGFmW7VDu+t7nABnsoTlZTyE3xa8xLtiPQugjlj8Elg1teIieaR/IBiLFRnwPQiCIW
-	 cw0VUuupk9YOA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A30ACC41670;
-	Mon,  3 Apr 2023 14:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B64A33CF
+	for <bugs@lists.linux.dev>; Mon,  3 Apr 2023 16:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=AR6jEyYHfrjsqNqPYlX0AiVvpVF7Q+OSfmRYhQIEVYU=; b=QIYFM0wGMzSq0Hx909jCJEfwKL
+	rQ3q16UC4fYLVYRi9H/0nx1stp8KwvHXqm01MFPMX4Byvh5Fu+X5Ku82qZX17l/4oh3fZDFAT/9Mh
+	aVmThYP6tmaIGsGKT+ou/cjiBgQFBD3/ix6OHy9w6OtC1uTd4k9oGJu6gU18Z4SbgUh+YeFp+th/J
+	7ZVJbOVfEe30FLobB1KgBXGmngmHLu1ToEeaCbtdAiD/BfraYVtXYnhNshwjJ5Z4RPprUCgxurtSZ
+	5XT5iX2NY8+rQUw53egRy8XEk6bbsDzuAYvm8m/qitL/okMVW/TeWv8x5UYQXH3psal/vakGgF5k4
+	YDdSaNRg==;
+Received: from [2601:1c2:980:9ec0::2764]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pjN7F-00FyFI-3C;
+	Mon, 03 Apr 2023 16:33:10 +0000
+Message-ID: <92be7194-b02b-5380-7d33-9bd44e6aaf88@infradead.org>
+Date: Mon, 3 Apr 2023 09:33:09 -0700
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: Kernel panic, CONFIG_FIPS_SIGNATURE_SELFTEST, missing dependency
+Content-Language: en-US
+To: "Kernel.org Bugbot" <bugbot@kernel.org>, linux-kselftest@vger.kernel.org,
+ shuah@kernel.org, bugs@lists.linux.dev, skhan@linuxfoundation.org
+References: <20230403-b217293c0-1e5391e4b7f5@bugzilla.kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230403-b217293c0-1e5391e4b7f5@bugzilla.kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-From: "Kernel.org Bugbot" <bugbot@kernel.org>
-To: linux-kselftest@vger.kernel.org, shuah@kernel.org, bugs@lists.linux.dev, 
- skhan@linuxfoundation.org
-Message-ID: <20230403-b217293c0-1e5391e4b7f5@bugzilla.kernel.org>
-Subject: Kernel panic, CONFIG_FIPS_SIGNATURE_SELFTEST, missing dependency
-X-Bugzilla-Product: Linux
-X-Bugzilla-Component: Kernel
-X-Mailer: peebz 0.1
-Date: Mon,  3 Apr 2023 14:29:00 +0000 (UTC)
 
-o6irnndpcv7 writes via Kernel.org Bugzilla:
+Hi sephora,
 
-Hello and good day!
+On 4/3/23 07:29, Kernel.org Bugbot wrote:
+> o6irnndpcv7 writes via Kernel.org Bugzilla:
+> 
+> Hello and good day!
+> 
+> I think I found a missing dependency.
+> In case of setting CONFIG_FIPS_SIGNATURE_SELFTEST, CONFIG_CRYPTO_SHA256 also needs to be set. But not as module.
+> Failing to do so results in an early kernel panic during boot. 
 
-I think I found a missing dependency.
-In case of setting CONFIG_FIPS_SIGNATURE_SELFTEST, CONFIG_CRYPTO_SHA256 also needs to be set. But not as module.
-Failing to do so results in an early kernel panic during boot. 
+Please tell us what the kernel panic message is.
 
-Tested on linux-6.1.12-gentoo and linux-6.1.19-gentoo.
+> 
+> Tested on linux-6.1.12-gentoo and linux-6.1.19-gentoo.
+> 
 
+Have you tested this on a mainline kernel, without gentoo patches?
 
-Thanks,
-  sephora
+Does gentoo add any patches in this area?
 
-View: https://bugzilla.kernel.org/show_bug.cgi?id=217293#c0
-You can reply to this message to join the discussion.
+Thanks.
+
+> 
+> Thanks,
+>   sephora
+> 
+> View: https://bugzilla.kernel.org/show_bug.cgi?id=217293#c0
+> You can reply to this message to join the discussion.
+
 -- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (peebz 0.1)
-
+~Randy
