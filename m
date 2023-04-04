@@ -1,71 +1,102 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F19EA935
-	for <bugs@lists.linux.dev>; Mon,  3 Apr 2023 21:51:58 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id cu4so22264366qvb.3
-        for <bugs@lists.linux.dev>; Mon, 03 Apr 2023 14:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1680558717;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sjT5o4xvNfeO0u+mk4eqCgrBLdiXC2jtMg+3Cg0Ah+s=;
-        b=BY6rpDxeKb8DeVdtM+UrqqtBzn9YBmX6bA4aCVzqc15IKltnlC8nzdzXUX2K0Vrc5s
-         rR/AJVkJ/0cZn1OVgnmzyfP4YNtlc58rT+RvyhSRSjBSmb5NfwKoX3UW3LSA8aMNQnQe
-         YAV8wc1lGbzCFiM7EV+aIi7nY68VPP8i17rus=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680558717;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sjT5o4xvNfeO0u+mk4eqCgrBLdiXC2jtMg+3Cg0Ah+s=;
-        b=ex76D1hc03P3vTZPjT/jjcBrrBr5LnKIUvPUMB1sDBrV1B5Yo37PnOWH0ZfH9VbkoG
-         QcZFKY+tjF6SEsa6p9+1CE/YGXWiuL9yM7yHhN8YjPWanedtKgsPbTQZvKz9zMl8jmCs
-         R2SpJ1koT+q/xKdg2UNLNBmvBKNWjMM9Nm34BLjaf1w9Vv82+d1KHP4JnkxquvKDnx5q
-         4yns0/P3J8aTu9+uTEo6GH1l/hvEy5dKmnBNsfWWeqw9nahgFQwEfOYeFVVKz0MAbxW7
-         H4GXA5zASBH5jXFYxogWB8iP18bZoMQYvOeAVyeb9aJbaqJ01xiqZi9NXxFO5GyA6gHK
-         ir6Q==
-X-Gm-Message-State: AAQBX9eMi3bLG4dyU5T6D5QandyLoTrBVAaoWG1ZzMafG/vIV7UUvoCM
-	qT5qNqA9VRWXIbqd/myckWkreg==
-X-Google-Smtp-Source: AKy350bTaGQ08kEu83u5p/ijNr8qy5I/X/lIvnEcVkcdouB39xLUA34m5/51K/KXWuL6r29WiCrKHw==
-X-Received: by 2002:a05:6214:224a:b0:571:698:eac9 with SMTP id c10-20020a056214224a00b005710698eac9mr39848431qvc.18.1680558717538;
-        Mon, 03 Apr 2023 14:51:57 -0700 (PDT)
-Received: from meerkat.local (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
-        by smtp.gmail.com with ESMTPSA id a14-20020a0ccdce000000b005dd8b93458bsm2927653qvn.35.2023.04.03.14.51.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 14:51:57 -0700 (PDT)
-Date: Mon, 3 Apr 2023 17:51:55 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: "Kernel.org Bugbot" <bugbot@kernel.org>
-Cc: aros@gmx.com, regressions@lists.linux.dev, bugs@lists.linux.dev, 
-	workflows@vger.kernel.org, linux-kernel@vger.kernel.org, linux@leemhuis.info, 
-	tools@linux.kernel.org
-Subject: Re: Introducing bugbot
-Message-ID: <20230403-favored-subsiding-6e49bd@meerkat>
-References: <gmnswy45efztvcyc3xqymm52h7cdfwjz64go2wy3zyeqcqwb76@36fva4hyip4q>
- <20230403-b217297-6bf5914fb55d@bugzilla.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FD8648
+	for <bugs@lists.linux.dev>; Tue,  4 Apr 2023 04:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=y+45/tR1xUIW+NW2xOJXo2/WIZVObQZACpkC9+9EWgo=; b=SsIrHjTHTHD8jnh/Rjtj4yeLbq
+	mKB6KgstsEZRGMzKxfuEl+0MF2PP3GeVu3PBgwAnP/4wqCrfk4t6Vt7iaI5QBF8HpzeJd2XV123rB
+	rHxigNi1ktOS6dnfmwkll8HCMMBZC6ZOqYpRyg5sbS14VnqgmnuPyRk/Lcl7dWSXyTIfjowkqolR6
+	eRssTOAgO/y1pu09R6ZVw/db5J+JrkPA66+z5IHKm42wlw+o4+4MWeS0pQ/76IU3BiIzJtoeryXNX
+	t/9m0vLdlQJBUtI/Zfuf9RVQPZhlk8EcvSoQslAkQQ4G1mEhAtuj6gTFO9bgL1ksjQICVpuoB35eo
+	+u6qUuWA==;
+Received: from [2601:1c2:980:9ec0::2764]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pjYWB-0002Il-1l;
+	Tue, 04 Apr 2023 04:43:39 +0000
+Message-ID: <1c880cd5-b3f1-46b9-fc66-f7743e068c7a@infradead.org>
+Date: Mon, 3 Apr 2023 21:43:37 -0700
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230403-b217297-6bf5914fb55d@bugzilla.kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: Kernel panic, CONFIG_FIPS_SIGNATURE_SELFTEST, missing dependency
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+To: "Kernel.org Bugbot" <bugbot@kernel.org>, shuah@kernel.org,
+ linux-kselftest@vger.kernel.org, bugs@lists.linux.dev,
+ skhan@linuxfoundation.org
+References: <20230403-b217293c0-1e5391e4b7f5@bugzilla.kernel.org>
+ <20230403-b217293c2-4b94a5e6478a@bugzilla.kernel.org>
+ <1d7e238b-7e8f-9ce0-1ecb-68e2b80b6d92@infradead.org>
+In-Reply-To: <1d7e238b-7e8f-9ce0-1ecb-68e2b80b6d92@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 03, 2023 at 09:47:49PM +0000, Kernel.org Bugbot wrote:
-> Hello:
+Hi again,
+
+On 4/3/23 13:19, Randy Dunlap wrote:
 > 
-> This conversation is now tracked by Kernel.org Bugzilla:
-> https://bugzilla.kernel.org/show_bug.cgi?id=217297
 > 
-> There is no need to do anything else, just keep talking.
+> On 4/3/23 13:04, Kernel.org Bugbot wrote:
+>> o6irnndpcv7 writes via Kernel.org Bugzilla:
+>>
+>> Hi Randy!
+>>
+>> (In reply to Bugbot from comment #1)
+>>> Randy Dunlap <rdunlap@infradead.org> writes:
+>>>
+>>> Please tell us what the kernel panic message is.
+>>>
+>>
+>> There is no message. I'm sorry.
+>> I just get a black screen.
+>>
+>> I'm using EFI to boot my machine. And I can get some output if I enable 'earlycon=efifb' via CMDLINE. 
+>>
+>> The output stops at:
+>> Console: colour dummy device 80x25
+>> printk: console [tty0] enabled
+>> printk: bootconsole [efifb0] disabled
+>>
+>> At this point the machine freezes. No error message.
+>>
 
-Thank you for illustrating the "may explode" bits. :)
+I can reproduce this or at least something very similar to it, but it
+doesn't matter if FIPS_SIGNATURE_SELFTEST is set or not.
 
-Unfortunately, triggering on key phrases means it gets triggered when you're
-discussing key phrases. I'll make sure that this only happens when the key
-phrase is on the line by itself.
 
--K
+>> And when I set:
+>> CONFIG_PANIC_ON_OOPS=y
+>> CONFIG_PANIC_ON_OOPS_VALUE=1
+>> CONFIG_PANIC_TIMEOUT=-1
+>>
+>> That gives me a reboot loop.
+>>
+>>>
+>>> Have you tested this on a mainline kernel, without gentoo patches?
+>>>
+>>> Does gentoo add any patches in this area?
+>>>
+>>
+>> Unfortunately I don't know if Gentoo is adding any patches that may affect this.
+>>
+>> But I can confirm that the problem persists while using vanilla-sources for kernel 6.2.9.
+> 
+> Please put your kernel .config file on the bugzilla entry.
+
+I'll test with your .config file...
+
+> What makes you think that this is related to FIPS_SIGNATURE_SELFTEST?
+
+and still that question...
+
+-- 
+~Randy
