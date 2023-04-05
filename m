@@ -1,76 +1,50 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED41624
-	for <bugs@lists.linux.dev>; Wed,  5 Apr 2023 03:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=J2oLC7V3hwrPHH7NbcvL0/7jOfylZw1zfDN3zohO/IM=; b=SpVWlTEO3jmNZ0HiKylaQjea5p
-	Xlf7cUkQfEc+igIMI/Ni5zdLGgXKfwHmx3gyDktAs7i+7aEGc4dACkDYccDOPZnI9OgP21xrJYm6V
-	uOOvjAJGuam9hJGhNsRNCnfj+sFbBQyjp1J698V3DoGmN70oOA3YI/Q68DwDt0ZUndAy4etlOy10a
-	JAQWAyatL2Hn1rPXcY1/DvdPyzG30rPs0aUIrkcE5FxjEMnjEW034ncorTLg0VVtM8ejLSnvblgnu
-	2znU/c8ocSJwu99oEbKAK1/6X+ia38VoAIqbsWMRcbzbOlRF4N45DJa0s0kmCRgPJ6TW6sKRNOel4
-	cHtf4vmA==;
-Received: from [2601:1c2:980:9ec0::2764]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pjtcA-003CPN-2w;
-	Wed, 05 Apr 2023 03:15:15 +0000
-Message-ID: <15521c65-1501-9394-8845-4d4ef983e6b6@infradead.org>
-Date: Tue, 4 Apr 2023 20:15:12 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDD97FC
+	for <bugs@lists.linux.dev>; Wed,  5 Apr 2023 08:25:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A9513C433D2;
+	Wed,  5 Apr 2023 08:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680683100;
+	bh=y/wyS1wybskgY3NT3qvYlhAj/QT7MG9Mf7/tNstaFbg=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=tEWPde6v5O5Fpb4rSsKWNahmteWdXVmcqIQnoQ4mWFU8EFg3tjnBCjePa1W7YfFW1
+	 wOtRDKzzA2vvHSG3hWLcBuWa1j6twfuBpFNOpBfrHcV4poYkgnmaqFOvsfD/spUBv0
+	 HC96N8MlsNxk8fVQMucVjiOXEd6c3cwfAN0A/juTC4NR7Ix4U5vCRTbymXQMnhf6mG
+	 YcSEWkR+Qoj2frXvxKZz5ssWroCV0jQnIAzq3yB/ZSWCVgan22KJzIRrZQsrqyEfKU
+	 ksblnsJxWJ36GRTMQsVgLwTN6BffEL4AdMMU/J4dfwpVvwWpy4RJBB/LkiHwF62Te9
+	 Q4n8GwxFFFoOg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8B9FFC4167B;
+	Wed,  5 Apr 2023 08:25:00 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: Kernel panic, CONFIG_FIPS_SIGNATURE_SELFTEST, missing dependency
-Content-Language: en-US
-To: "Kernel.org Bugbot" <bugbot@kernel.org>, bugs@lists.linux.dev,
- linux-kselftest@vger.kernel.org, skhan@linuxfoundation.org, shuah@kernel.org
-References: <20230403-b217293c0-1e5391e4b7f5@bugzilla.kernel.org>
- <20230404-b217293c6-010748a08594@bugzilla.kernel.org>
-Cc: linux-crypto@vger.kernel.org, David Howells <dhowells@redhat.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230404-b217293c6-010748a08594@bugzilla.kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+From: "Kernel.org Bugbot" <bugbot@kernel.org>
+To: bugs@lists.linux.dev, linux-wireless@vger.kernel.org, 
+ quic_msinada@quicinc.com, ath11k@lists.infradead.org
+Message-ID: <20230405-b217299-ec3c4e9b0c8a@bugzilla.kernel.org>
+In-Reply-To: <1666128501-12364-1-git-send-email-quic_msinada@quicinc.com>
+References: <1666128501-12364-1-git-send-email-quic_msinada@quicinc.com>
+Subject: Re: wifi: ath11k: push MU-MIMO configurations to hardware
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: peebz 0.1
+Date: Wed,  5 Apr 2023 08:25:00 +0000 (UTC)
 
-[adding linux-crypto and dhowells]
+Hello:
 
+This conversation is now tracked by Kernel.org Bugzilla:
+https://bugzilla.kernel.org/show_bug.cgi?id=217299
 
-On 4/3/23 23:17, Kernel.org Bugbot wrote:
-> o6irnndpcv7 writes via Kernel.org Bugzilla:
-> 
-> Hi Randy!
-> 
-> I submitted an example config. 
-> That config works fine for me, until I set: 
-> 
-> CONFIG_FIPS_SIGNATURE_SELFTEST=y
-> 
-> And it starts working well again if I set:
-> 
-> CONFIG_FIPS_SIGNATURE_SELFTEST=y
-> CONFIG_CRYPTO_SHA256=y
-> 
-> That's why I think it is related to FIPS_SIGNATURE_SELFTEST.
-> 
-> 
-> Thanks,
->   sephora
-> 
-> View: https://bugzilla.kernel.org/show_bug.cgi?id=217293#c6
-> You can reply to this message to join the discussion.
-
-I'm not making any progress on this bug, so asking others for help.
-
-
-Is there anything in the FIPS_SIGNATURE_SELFTEST code (selftest.c)
-or code that it calls that requires CRYPTO_SHA256?
-
+There is no need to do anything else, just keep talking.
 -- 
-~Randy
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (peebz 0.1)
+
