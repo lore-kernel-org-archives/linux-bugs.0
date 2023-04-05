@@ -1,51 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C4DC964
-	for <bugs@lists.linux.dev>; Tue,  4 Apr 2023 20:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 88FA3C433EF;
-	Tue,  4 Apr 2023 20:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680638485;
-	bh=rCdo7Uzp26R9Y0y5u5Xtz/JGD2lAQBywE0PagiehKkU=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=PBZUuPbHfslB9ZYUrrd9ezrtMJW3GdsEZ3rcG1v5yVlgoweRFkLxuDUoMQrZgHsWD
-	 Vbe9XVNRgqFN3x45rfyF+ZVVdHLuCw2GZnhHMBoNByNhtCtzBCIG/2oRTm+bWVwIC3
-	 PcUuqIf7f8XYD/l8k89/L857o1TUqi1yD2UIMeEK+KELWr1NjJBrqscj3EPDbVw/OI
-	 WE7oRwriS9I9PaPRJzY+U0/zeXg0mGi2xPGj+eZElD2AFACEHuPWGVkUZE5rxRaxjC
-	 619J0ZoA8xoVA+jxNGrDnOwFdmHgvDBQ1UnybrPhokKr72el83Runim3KSkxzkIm5i
-	 KK5HHr5yZlrUA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6A4B4C395C5;
-	Tue,  4 Apr 2023 20:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED41624
+	for <bugs@lists.linux.dev>; Wed,  5 Apr 2023 03:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=J2oLC7V3hwrPHH7NbcvL0/7jOfylZw1zfDN3zohO/IM=; b=SpVWlTEO3jmNZ0HiKylaQjea5p
+	Xlf7cUkQfEc+igIMI/Ni5zdLGgXKfwHmx3gyDktAs7i+7aEGc4dACkDYccDOPZnI9OgP21xrJYm6V
+	uOOvjAJGuam9hJGhNsRNCnfj+sFbBQyjp1J698V3DoGmN70oOA3YI/Q68DwDt0ZUndAy4etlOy10a
+	JAQWAyatL2Hn1rPXcY1/DvdPyzG30rPs0aUIrkcE5FxjEMnjEW034ncorTLg0VVtM8ejLSnvblgnu
+	2znU/c8ocSJwu99oEbKAK1/6X+ia38VoAIqbsWMRcbzbOlRF4N45DJa0s0kmCRgPJ6TW6sKRNOel4
+	cHtf4vmA==;
+Received: from [2601:1c2:980:9ec0::2764]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pjtcA-003CPN-2w;
+	Wed, 05 Apr 2023 03:15:15 +0000
+Message-ID: <15521c65-1501-9394-8845-4d4ef983e6b6@infradead.org>
+Date: Tue, 4 Apr 2023 20:15:12 -0700
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: Kernel panic, CONFIG_FIPS_SIGNATURE_SELFTEST, missing dependency
+Content-Language: en-US
+To: "Kernel.org Bugbot" <bugbot@kernel.org>, bugs@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, skhan@linuxfoundation.org, shuah@kernel.org
+References: <20230403-b217293c0-1e5391e4b7f5@bugzilla.kernel.org>
+ <20230404-b217293c6-010748a08594@bugzilla.kernel.org>
+Cc: linux-crypto@vger.kernel.org, David Howells <dhowells@redhat.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230404-b217293c6-010748a08594@bugzilla.kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-From: "Kernel.org Bugbot" <bugbot@kernel.org>
-To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- bugs@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- clabbe.montjoie@gmail.com, heiko@sntech.de
-Message-ID: <20230404-b217298-17108437c21e@bugzilla.kernel.org>
-In-Reply-To: <ZCx5eVJvXaE1dDvt@Red>
-References: <ZCx5eVJvXaE1dDvt@Red>
-Subject: Re: missing crypto power domain on rk3588 ?
-X-Bugzilla-Product: Linux
-X-Bugzilla-Component: Kernel
-X-Mailer: peebz 0.1
-Date: Tue,  4 Apr 2023 20:01:25 +0000 (UTC)
 
-Hello:
+[adding linux-crypto and dhowells]
 
-This conversation is now tracked by Kernel.org Bugzilla:
-https://bugzilla.kernel.org/show_bug.cgi?id=217298
 
-There is no need to do anything else, just keep talking.
+On 4/3/23 23:17, Kernel.org Bugbot wrote:
+> o6irnndpcv7 writes via Kernel.org Bugzilla:
+> 
+> Hi Randy!
+> 
+> I submitted an example config. 
+> That config works fine for me, until I set: 
+> 
+> CONFIG_FIPS_SIGNATURE_SELFTEST=y
+> 
+> And it starts working well again if I set:
+> 
+> CONFIG_FIPS_SIGNATURE_SELFTEST=y
+> CONFIG_CRYPTO_SHA256=y
+> 
+> That's why I think it is related to FIPS_SIGNATURE_SELFTEST.
+> 
+> 
+> Thanks,
+>   sephora
+> 
+> View: https://bugzilla.kernel.org/show_bug.cgi?id=217293#c6
+> You can reply to this message to join the discussion.
+
+I'm not making any progress on this bug, so asking others for help.
+
+
+Is there anything in the FIPS_SIGNATURE_SELFTEST code (selftest.c)
+or code that it calls that requires CRYPTO_SHA256?
+
 -- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (peebz 0.1)
-
+~Randy
