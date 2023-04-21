@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26736366
-	for <bugs@lists.linux.dev>; Fri, 21 Apr 2023 10:32:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CA899C433D2;
-	Fri, 21 Apr 2023 10:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA73128E2
+	for <bugs@lists.linux.dev>; Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4038EC433EF;
+	Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682073133;
-	bh=tJNrKZeTjzIwWSqC6HSIgGMg0xI9wQInmCYJTlR10Zs=;
+	s=k20201202; t=1682073783;
+	bh=Tjp7wAX1+QEEX9xG1fxk+EymK7jvR/5MSwQ8zASDegg=;
 	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=IJ7uSw1T+j7ogztaP2txd4UBdS/Zd0x5C74VsQJbgfDLg0ODLz5a6cI2becMJd7OW
-	 GRGyuP7CEyWIRcnc5mS/X821aFmByHfIP0T/D0EBVGmVEiV2LmhDOz9uQtDqnDWax0
-	 /gWfwAzFpOwY+/d0pFrEYShHlKXUdsPwtG5IZ+bdjxD7WmTj0iJhcgwuVJkuAih2mY
-	 lNvXYzEpKgsSVgZYexvbXwn4qHdkEL0zgYLyo017voidk2hVPoFyAA1seA0VxzZYyq
-	 dry7y4hTQFlLAjUbd1beg/I2+DIUICw62PsvjAU/3OguxUB+lgzURv75vaGzQvZbZg
-	 UtcUtkzkWS+rQ==
+	b=kW+/F2/Sc0aDCRfeS+JQje3mYyGwj3Lg7d8mvYtWIBJfhHUldwZHOtOjXCubnlysq
+	 RRcJpDDfSp/FPji21ojsdb9BBfxXQpU3SUHEr0AugBfoQtfQBAUIgwEl0NzqFnxbid
+	 Fl8U/rOZbnryXO8M/Jn8cTfjDDQBbIuSmuae0FbGdH89nYQP0WgEwsFt6TSEfnmtK6
+	 PsO/YenL8tHg0zUw2FV6vjqb2XWUUtMcq5E+O4oYQ8jonTxGkzyF/+UUWiZcCAkdSe
+	 zYCmxPvIvt4FZ+RK5YCtDkGrUkEHV3zp3uByM7OUpPrg7cvqVG8ee7kWBrIEKYoJjF
+	 DU0wU+zGltCwA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A9365C395EA;
-	Fri, 21 Apr 2023 10:32:13 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 22BF6C561EE;
+	Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -29,7 +29,7 @@ Content-Transfer-Encoding: 7bit
 From: "Kernel.org Bugbot" <bugbot@kernel.org>
 To: linus.walleij@linaro.org, linux-gpio@vger.kernel.org, 
  bugs@lists.linux.dev
-Message-ID: <20230421-b217334c2-00d7f9d564c1@bugzilla.kernel.org>
+Message-ID: <20230421-b217334c3-87cbb53c78f4@bugzilla.kernel.org>
 In-Reply-To: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
 References: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
 Subject: Re: rockchip rk3328 pinctrl unable to change gpio function of pins
@@ -37,33 +37,20 @@ Subject: Re: rockchip rk3328 pinctrl unable to change gpio function of pins
 X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: peebz 0.1
-Date: Fri, 21 Apr 2023 10:32:13 +0000 (UTC)
+Date: Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
 
 antwain.schneider added an attachment on Kernel.org Bugzilla:
 
-Created attachment 304169
-the other half
+Created attachment 304170
+correct other half
 
-missed from the 2019 patch is the recalculations for the gpio3b, e.g.
-
-/* GRF_GPIO3BL_IOMUX 3'bxxx */
-/* 3b0 */	"tsp_d4", "cif_data4", "spi_csn0m2", "i2s2_lrcktxm1", "usb3phy_debug8", "i2s2_lrckrxm1", NULL,
-/* GRF_GPIO3BH_IOMUX 2'bxx */
-/* 3b1 */	"tsp_d5m0", "cif_data5m", NULL,
-/* 3b2 */	"tsp_d6m0", "cif_data6m", NULL,
-/* 3b3 */	"tsp_d7m0", "cif_data7m", NULL,
-/* 3b4 */	"card_clkm0", NULL, NULL,
-/* 3b5 */	"card_rstm0", NULL, NULL,
-/* 3b6 */	"card_detm0", NULL, NULL,
-/* 3b7 */	"card_iom0", NULL, NULL,
-
-so attached is the missing half of the initial correct recalculations in the modern format
+sorry, off by 8 error :O
 
 File: rockchip-rk3328-pinctrl-gpio3b-recalc.diff (text/plain)
-Size: 743.00 B
-Link: https://bugzilla.kernel.org/attachment.cgi?id=304169
+Size: 749.00 B
+Link: https://bugzilla.kernel.org/attachment.cgi?id=304170
 ---
-the other half
+correct other half
 
 You can reply to this message to join the discussion.
 -- 
