@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA73128E2
-	for <bugs@lists.linux.dev>; Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4038EC433EF;
-	Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E479882F
+	for <bugs@lists.linux.dev>; Sat, 22 Apr 2023 21:08:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2EC7CC433EF;
+	Sat, 22 Apr 2023 21:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682073783;
-	bh=Tjp7wAX1+QEEX9xG1fxk+EymK7jvR/5MSwQ8zASDegg=;
+	s=k20201202; t=1682197722;
+	bh=0/t8qdmuIyeahzMxwLfNy1xLI4yMxcsuUOWqyPFUa3Y=;
 	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=kW+/F2/Sc0aDCRfeS+JQje3mYyGwj3Lg7d8mvYtWIBJfhHUldwZHOtOjXCubnlysq
-	 RRcJpDDfSp/FPji21ojsdb9BBfxXQpU3SUHEr0AugBfoQtfQBAUIgwEl0NzqFnxbid
-	 Fl8U/rOZbnryXO8M/Jn8cTfjDDQBbIuSmuae0FbGdH89nYQP0WgEwsFt6TSEfnmtK6
-	 PsO/YenL8tHg0zUw2FV6vjqb2XWUUtMcq5E+O4oYQ8jonTxGkzyF/+UUWiZcCAkdSe
-	 zYCmxPvIvt4FZ+RK5YCtDkGrUkEHV3zp3uByM7OUpPrg7cvqVG8ee7kWBrIEKYoJjF
-	 DU0wU+zGltCwA==
+	b=Yv5Xf0GQqKPrzJxXORHRvPay4fFytxwoj1RphJ8S2pbMu3WF68Qo/zElgS+USi97J
+	 M1SoqMeV2Th59wiDpInFOPO60O6yIW/ZBFcY42Y5mZHLsN4edk+mZPkpIEnhCqgBvi
+	 7EoOd/Wm/ZzLCywQZFoCtbk2pdpbseX3kpYRGDpeFXU9z+/cq7OhAzdcjigWpHmxNt
+	 BipS1yVTir5/qkiHi1aVS8x70jlDG5/AvqXrKOq5OBkzIS9y99A9rd7XZQiP5JZpB3
+	 5aIJE4BxtdF54c0rdOa3hkqU3W4T4x7OyD92SnQLEkO54pVjOaCPRKy+GJUlng6ghw
+	 UkLoSLulCugMQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 22BF6C561EE;
-	Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 132C6E270DB;
+	Sat, 22 Apr 2023 21:08:42 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -27,31 +27,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 From: "Kernel.org Bugbot" <bugbot@kernel.org>
-To: linus.walleij@linaro.org, linux-gpio@vger.kernel.org, 
- bugs@lists.linux.dev
-Message-ID: <20230421-b217334c3-87cbb53c78f4@bugzilla.kernel.org>
+To: heiko@sntech.de, linux-arm-kernel@lists.infradead.org, 
+ bugs@lists.linux.dev, linux-rockchip@lists.infradead.org
+Message-ID: <20230422-b217334c4-6b3d3388d529@bugzilla.kernel.org>
 In-Reply-To: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
 References: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
-Subject: Re: rockchip rk3328 pinctrl unable to change gpio function of pins
- defined in rk3328_mux_recalced_data
+Subject: Re: rockchip rk3328 pinctrl overflow
 X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: peebz 0.1
-Date: Fri, 21 Apr 2023 10:43:03 +0000 (UTC)
+Date: Sat, 22 Apr 2023 21:08:42 +0000 (UTC)
 
-antwain.schneider added an attachment on Kernel.org Bugzilla:
+antwain.schneider writes via Kernel.org Bugzilla:
 
-Created attachment 304170
-correct other half
+to try to make it clearer, gpio2b is marked as IOMUX_WIDTH_3BIT
 
-sorry, off by 8 error :O
+GRF_GPIO2BL_IOMUX
+2b0  2b1  2b2  2b3  2b4  2b5  2b6
+[xxx][xxx][xxx][xxx][xxx][xxx][xxx] 21 bits without recalc
+[xxx][xxx][xxx][xxx][xx ][xxx][xxx] 20 bits with current recalc
+[xx ][xx ][xx ][xx ][xx ][xx ][xx ] 14 bits with proposed recalc
 
-File: rockchip-rk3328-pinctrl-gpio3b-recalc.diff (text/plain)
-Size: 749.00 B
-Link: https://bugzilla.kernel.org/attachment.cgi?id=304170
----
-correct other half
+iomux sections are divided into 32 bit registers with 16 bits for values and 16 bits for writing, without the proposed recalc, there are just too many bits
 
+View: https://bugzilla.kernel.org/show_bug.cgi?id=217334#c4
 You can reply to this message to join the discussion.
 -- 
 Deet-doot-dot, I am a bot.
