@@ -1,57 +1,67 @@
-Received: from m1316.mail.163.com (m1316.mail.163.com [220.181.13.16])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 844187E
-	for <bugs@lists.linux.dev>; Thu, 18 May 2023 01:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=6fDgC2GR6pyvVswgmxUhGqn/NSted6QiTzeap+AvGLE=; b=X
-	A8nkzNp0ddbLpnrFZUNGat2EwZwnNAXD8R5uAI+RvB5BDI5AQ5ws2V36lkDIBZ7i
-	rSMIQqDzpW7vSoBgD07tffTsRMaHe+NQYfEmgTlzPxAt0gZ9j/lhKcA+ExvMHpkk
-	AqMn6piBGfcUzL/S+Tp+dNLsCV1ez/n9nc7vMZi4Eg=
-Received: from yshxxsjt715$163.com ( [113.128.85.191] ) by
- ajax-webmail-wmsvr16 (Coremail) ; Thu, 18 May 2023 09:07:05 +0800 (CST)
-X-Originating-IP: [113.128.85.191]
-Date: Thu, 18 May 2023 09:07:05 +0800 (CST)
-From: Norman <yshxxsjt715@163.com>
-To: bugs@lists.linux.dev
-Subject: ideas to find a root cause of a long rcu_wait_gp delay
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2023 www.mailtech.cn 163com
-X-NTES-SC: AL_QuyTBv+cvUgp4yedYukXn0oTgug4Ucq0vfkm2IdSOZk0oynw1howZkV6Pn7Jz8u+NRGLiiKmYjFt5eBZUYdRW5wreqU01m/rRhsoRhNvMHw2
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1C97F3
+	for <bugs@lists.linux.dev>; Fri, 19 May 2023 07:10:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 641C2C433D2;
+	Fri, 19 May 2023 07:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684480242;
+	bh=hwde4HciUmdMwEjrQ9U5i75vdExkE0bt/hHunNXbgnw=;
+	h=Date:From:To:In-Reply-To:References:Subject:From;
+	b=JxBHYRcdPk6IHItjBky+4/VDJsJMIDLY5CmEWa7bfmU1J1w90UJEYp4wIEEd2eCcM
+	 hmMV6xdDU6MQkI4H9VjblAeAGCTA2u7Q1vX07pPdo4ufrQiTiu5XGbULzHGKoil0rX
+	 CpZ53i+vvLf6f6ULtUec6fXrq5w41zr0ysZFx90YPNG54nU3JZOEDYB1P7HFMHa2oK
+	 WGqTYqqdzUTUUK6FrjBz1T0BT8ye62QvFVTH6mrHBwY/hDNDSNEUJHKS+YsPkEHENh
+	 AVHXwd39+fJUgKrGwcE6hdC0402up7ieaAVWlu9coFxyO9NICHYj/5fc7Bf/f72Vj4
+	 xwk5kB/anUXjA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3DD95C73FE0;
+	Fri, 19 May 2023 07:10:42 +0000 (UTC)
+Date: Fri, 19 May 2023 07:10:44 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <3981a8dd.62a.1882c6571a0.Coremail.yshxxsjt715@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:EMGowAD3_085emVkcLENAA--.10963W
-X-CM-SenderInfo: h1vk555vmwliqv6rljoofrz/1tbiIAhzL10TMseUuAACsh
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+From: "Kernel.org Bugbot" <bugbot@kernel.org>
+To: linux-rockchip@lists.infradead.org, heiko@sntech.de, 
+ bugs@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Message-ID: <20230519-b217334c6-f82053afb53a@bugzilla.kernel.org>
+In-Reply-To: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
+References: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
+Subject: Re: [PATCH] pinctrl: rockchip: rk3328: rk3328_mux_recalced_data:
+ fix bit alignment
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: peebz 0.1
 
-CkhlbGxvIGNvbW11bml0eSwKCgrCoCBJIGFtIHNvcnJ5IGluIGFkdmFuY2UgaWYgdGhpcyBpcyBu
-b3QgdGhlIHJpZ2h0IHBsYWNlIHRvIGFzayBxdWVzdGlvbnMuCgoKwqDCoEkgYW0gZmFjaW5nIGEg
-d2VyaWQgbG9uZyBkZWxheSBmb3IgZXhlY3V0aW5nIGRvY2tlciBleGVjIGFuZCBhZGQgbmV3IG5h
-bWVkIG5ldHdvcmsgbmFtZXNwYWNlLiBUaGUgc3RhY2sgZm9yIGEgaXAgbmV0bnMgYWRkIGNvbW1h
-bmQgaXMgLAoKCmNhdCAvcHJvYy8zODQzODU2L3N0YWNrCls8MD5dIF9fd2FpdF9yY3VfZ3ArMHgx
-MzQvMHgxNjAKWzwwPl0gc3luY2hyb25pemVfc2NoZWQrMHg1ZC8weDgwCls8MD5dIHN5bmNocm9u
-aXplX25ldCsweDFjLzB4MzAKWzwwPl0gbmZfcmVnaXN0ZXJfbmV0X2hvb2srMHgyMzIvMHgyYjAK
-WzwwPl0gbmZfcmVnaXN0ZXJfbmV0X2hvb2tzKzB4NDEvMHg4MApbPDA+XSBlYnRfcmVnaXN0ZXJf
-dGFibGUrMHgzMDMvMHgzNTAgW2VidGFibGVzXQpbPDA+XSBmcmFtZV9maWx0ZXJfbmV0X2luaXQr
-MHgyMy8weDI1IFtlYnRhYmxlX2ZpbHRlcl0KWzwwPl0gb3BzX2luaXQrMHg0NC8weDEzMApbPDA+
-XSBzZXR1cF9uZXQrMHhiNi8weDE3MApbPDA+XSBjb3B5X25ldF9ucysweGQxLzB4MjEwCls8MD5d
-IGNyZWF0ZV9uZXdfbmFtZXNwYWNlcysweDExZi8weDFkMApbPDA+XSB1bnNoYXJlX25zcHJveHlf
-bmFtZXNwYWNlcysweDVlLzB4YjAKWzwwPl0gU3lTX3Vuc2hhcmUrMHgyMTMvMHgzYzAKWzwwPl0g
-ZG9fc3lzY2FsbF82NCsweDczLzB4MTMwCls8MD5dIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdm
-cmFtZSsweDNkLzB4YTIKWzwwPl0gMHhmZmZmZmZmZmZmZmZmZmZmCgoKVW5mb3J0dWF0ZWx5IHRo
-ZSBtYWNoaW5lJ3Mga2VybmVsIGlzIHZlcnkgYW5jaWVudCwgaXQgaXMgYSB1YnVudHUgMjAuMDQg
-c3lzdGVtIHdpdGgga2VybmVsIHZlcnNpb25lZCA0LjE1LjAtNzItZ2VuZXJpYy4gSSB0cnkgdG8g
-cmVhZCByZWZlcmVuY2VzIG9ubGluZSwgYW5kIEkgYmVsaWV2ZSBzeW5jaHJvbml6ZV9zY2hlZCBp
-cyB3YWl0aW5nIGZvciBncmFjZSBwZXJpb2QgY29tcGxldGVzIGZvciBhbGwgb25saW5lIGNwdXMs
-CmJ1dCB0aGUgbWFjaGluZSBkb2VzIG5vdCBoYXZlIHZlcnkgaGlnaCBjcHUgdXNhZ2Ugb3Igc3lz
-dGVtIGxvYWQuCgoKU28gSSBhbSB2ZXJ5IGFwcHJlY2lhdGVkIGZvciBpZGVhcyB0byBoZWxwIGRl
-YnVnZ2luZyBvciBpZGVudGlmeWluZyB0aGUgcHJvYmxlbS4KCgpCZXN0IFJlZ2FyZHMsCkppYXRv
-bmcgU2hlbg==
+antwain.schneider writes via Kernel.org Bugzilla:
+
+*** PROOF OF CONCEPT ALERT ***
+
+here is a fun and easy way to prove how broken the current calculation is using both of the bug reports i have made combined together
+
+using a unmodified kernel with an unmodified dtb, take note of the grf iomux gpio2b registers, it should look like this
+
+00000200 00000001
+
+then modifiy the device tree, change the mode of the otp-out pin from 1 to 2 and then reboot and check the registers again, they will look like this
+
+00000200 00000002
+
+now if you've been playing along, you will be aware that the second 32 bit chunk represents the high-side of gpio2b, which is only pin 7, but otp-out is pin 5, which resides in the first 32 bit chunk which represents the low-side of gpio2b
+
+you can try this on any rk3328 based device
+
+*** PROOF OF CONCEPT ALERT ***
+
+View: https://bugzilla.kernel.org/show_bug.cgi?id=217334#c6
+You can reply to this message to join the discussion.
+-- 
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (peebz 0.1)
+
