@@ -1,26 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633AD1DA36;
-	Tue, 21 Nov 2023 07:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A411DDC7;
+	Fri, 22 Dec 2023 20:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4ss9v9y"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D4895C433C7;
-	Tue, 21 Nov 2023 07:25:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxBtVClU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F214EC433C8;
+	Fri, 22 Dec 2023 20:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700551510;
-	bh=wvPq2fvMsOoXjcPnG6LjJGeeADn4tr7tslrl9RQJLco=;
-	h=Date:From:To:In-Reply-To:References:Subject:From;
-	b=L4ss9v9ybDG36I5q0O+aunA8W/B2zU1CJGJvI3EG03hHhfOzPiwdAQKosl32fHY/A
-	 8x5mShfxfAZ9aKCDwtU2oX6cpWOMscfp47IR/nEyaQumzS3oBj98sBOQSAcgZqFsH9
-	 +nk0Lq64ef2AVI3exOPoeCJtj44J+icVvaETyl3Qw9iJOuFgdeL4EIGXC4vm+K710x
-	 7z/B4EMf/4YvK503N7oUszRVvsfAvtqUXW1g0cnv8KKLIeMACa5aO6M31pvXBq/g2s
-	 GvOv9MKRgEyzHhyFS4iI7VI38rOvgGOWcbhvNgLY7pL6hlabRr+FEaWXsoOZaG/Kc/
-	 0kEqdqBKa/OoA==
+	s=k20201202; t=1703277342;
+	bh=iXKYtqMzVuHtlxTF0qfLDk0CULUFNn1jMRPwGx0uC14=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=dxBtVClU5CP6vF/PlVc04A9fZ3uEaCZ+yVqtibwuvN/j24xSM6R8aaXp0dORQ9wMG
+	 mN4rldr7PAt+zRsrymf88EQ2Ry7sM3qf7hNDfknc7aE9F95reGLs9vsu+wIlo4j3yK
+	 kt/iu8UW/L//tMin+vg38QqJlYkyl1s0+rpW42JfaxpNfa2zzTH2TrL+HgLbXLkd+N
+	 vLpSm7fqbhbSpkXHo1ZDR4OSfkSpJQmgj1Te5x9WXdGYpFbqvFb+FPwB6yn6/qNP50
+	 5KbsaYsaZ0EavRznf3f2sCgvTnupcr25mDX4eYgsiZlXzKW3TXICquKON5fU5SqmEr
+	 eOubaekmX2iyg==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BB752EAA955;
-	Tue, 21 Nov 2023 07:25:10 +0000 (UTC)
-Date: Tue, 21 Nov 2023 07:25:10 +0000
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D2F8DDD4EE0;
+	Fri, 22 Dec 2023 20:35:41 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -30,24 +29,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 From: "Kernel.org Bugbot" <bugbot@kernel.org>
-To: tiwai@suse.com, linux-sound@vger.kernel.org, bugs@lists.linux.dev, 
- perex@perex.cz
-Message-ID: <20231121-b216392c3-3d2c0b363b6b@bugzilla.kernel.org>
-In-Reply-To: <20230331-b216392c0-c38b1eac72db@bugzilla.kernel.org>
-References: <20230331-b216392c0-c38b1eac72db@bugzilla.kernel.org>
-Subject: Re: Asus ROG Zephyrus GX701L sound problem
+To: mpdesouza@suse.com, borntraeger@linux.ibm.com, shuah@kernel.org, 
+ linux-doc@vger.kernel.org, joe.lawrence@redhat.com, jpoimboe@kernel.org, 
+ live-patching@vger.kernel.org, mbenes@suse.cz, bugs@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, svens@linux.ibm.com, 
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+ agordeev@linux.ibm.com, pmladek@suse.com, gor@linux.ibm.com, 
+ hca@linux.ibm.com, jikos@kernel.org, corbet@lwn.net
+Message-ID: <20231222-b218303-d272473600e9@bugzilla.kernel.org>
+In-Reply-To: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+Subject: Re: livepatch: Move modules to selftests and add a new test
 X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: peebz 0.1
+Date: Fri, 22 Dec 2023 20:35:41 +0000 (UTC)
 
-rakic.iwan writes via Kernel.org Bugzilla:
+Hello:
 
-Hello team,
+This conversation is now tracked by Kernel.org Bugzilla:
+https://bugzilla.kernel.org/show_bug.cgi?id=218303
 
-Any update, please.
-
-View: https://bugzilla.kernel.org/show_bug.cgi?id=216392#c3
-You can reply to this message to join the discussion.
+There is no need to do anything else, just keep talking.
 -- 
 Deet-doot-dot, I am a bot.
 Kernel.org Bugzilla (peebz 0.1)
