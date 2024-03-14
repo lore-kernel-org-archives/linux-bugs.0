@@ -1,70 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B918638F97;
-	Wed, 31 Jan 2024 21:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73ED5A4FD
+	for <bugs@lists.linux.dev>; Thu, 14 Mar 2024 07:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706735112; cv=none; b=fSV+CqzpQZeDtrolfwe3ynB3JWlhaXD80G2v8+T0TUPxMaEeSfaMxxnZIhzyt0Xl33eE6pUCeJM552x3d2Lme91fog4ED3zDXDOT7ffzOogLdkHj/E2wNTsQwXGSQVNdwAidzSqO+m27mi8b6pTTLRZ3KuyAiCT4vRvKDtac6bE=
+	t=1710400375; cv=none; b=DeMg8WYmk0rccoSeULeLFCmozcL+WcRLdqZfgAAtIceLl++5wwEOpA0dyjNzGKp9YeygL3yr3oV6AMKoVXtGHHyH357JgdFITvXK0VPbsHB4gJJdhwas9Q9PyHEdP/ZPoq/ccdzpY5605xDJDT316Gx8ttfBrYHohqLXxVNA0bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706735112; c=relaxed/simple;
-	bh=uzCf8IMr80v52FCep4tL/rTI0jJoFY8p8kaJTRbWdKs=;
-	h=Date:MIME-Version:Content-Type:From:To:Message-ID:In-Reply-To:
-	 References:Subject; b=nMGkDFPtU/zHRI9JAnlE1r0D9NU21Caqs+Ok067IQr1AtXl1dJrBG76RHG+7jzjN8aBGUASxUHsR1sAZgoI22X2CYucyB0d717Z4/iRnEWcGV5Ne0gSq71YjiYepntSgREQJsKqgx4gVARxYBBht5da1w3NEmE32EBGmN+bYG/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SIexyscO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710400375; c=relaxed/simple;
+	bh=3NVA96cL/X1I7WqZvh883rB2R1562Xmgvbo2h1NKsxc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=UtyrDWqumw1hMZrltrc7WTtAO9oklG0C4q3q0w2heOAOh2bW3kkK3ipZuqsoLRbFOu9HTbdfrBukxEyOh9R6kIW6YthP/bfbLtczUc8tCBiwmSodqQGqUJ0ArFS6avmeSXnTYlqsnImIv9wBck6L7XaMGDQpToI2/YLKWq+nnUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q3CP0vtT; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SIexyscO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F3BDC433C7;
-	Wed, 31 Jan 2024 21:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706735112;
-	bh=uzCf8IMr80v52FCep4tL/rTI0jJoFY8p8kaJTRbWdKs=;
-	h=Date:From:To:In-Reply-To:References:Subject:From;
-	b=SIexyscO+lMYyyAedpSwjX/OlhpMMGVhcYPDkLeFWYvT8ts1C5bVsHG5BFdraloKX
-	 jK+/+N754sa6DU3sj9ohfb+e2mjUFYNsWJH37llPGxf0hn3IfooZ0KrzUXLEwATTse
-	 zJJgw86kfspzNlIj31vOqTrl8jssrKXPCZwR07kNsOgSOD6kobv0j5r/1nE9CeHPNB
-	 sPqx0AMjtGnwq94116VrgTQIgN1KU6q75+tksvrJhL+3rTXUcf18qH9P8iwAUwzrJQ
-	 OYIYcMLP7Qa1IzMu9D16N4Q3LZhRrv7L2pJOWRve/WdEdE4yF3zMsvRIbysICHBeXc
-	 dhM3+VclvF3wA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 310E6C4166F;
-	Wed, 31 Jan 2024 21:05:12 +0000 (UTC)
-Date: Wed, 31 Jan 2024 21:05:20 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q3CP0vtT"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-512f54fc2dbso676360e87.1
+        for <bugs@lists.linux.dev>; Thu, 14 Mar 2024 00:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710400372; x=1711005172; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3NVA96cL/X1I7WqZvh883rB2R1562Xmgvbo2h1NKsxc=;
+        b=Q3CP0vtTqxjzb4WHKNhByxYDYUn2CvymKJavnSPs9RgF5ugK391lFrsEhE4zFhqB9T
+         7Df89lgACcrHLtoqL1nKKXJwTRyLIxaNz9fel/F2WY8DiY/HqfNnlEoW/DCu/Uz2U7zt
+         zyVYlm+/it0tslaZHsFCJYm3Ue59gG6bo+30IOsJQ3oyyetJ5GwJed5XlJtnlexrCc03
+         W1lxYoaSj3yWjN5SBcZBC4IHkwCTX724NsmwW3DjU12i/Z7UU0AXZ1m/VjfJW+knXL5o
+         Wt5jFf5hZatZhKwgOYzOJpEBX4HCWvUYVzhfCbW+wrAhO2uwxk0GwZ9IkY45pdqqkGwX
+         Jk/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710400372; x=1711005172;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3NVA96cL/X1I7WqZvh883rB2R1562Xmgvbo2h1NKsxc=;
+        b=eMRO5GWoc8TzFE3MLl670TELmc0n69uQRk8W3l6ful6E5zt2AtqHpn3nvnKgCwbThY
+         qgkTP1SPefONqjXsHFsc4JNtGXVk0RSWrc08h/bM1ws7IRLwcM/aMm31Vj1a7mou0fHn
+         LMBKk/KBd+t9FpdMYd8mmcUuHGzKDu6jjmikoeC+oSSPm4RFhYuD5ajfcl7TY2LGoXvu
+         sE08whc/sZHJ7miNzOcqXgOD8MO+xmyof+wWKrzo7FtufjbnVUgJPnOAz/zoUHut4HX5
+         TMxhzkDNSfzoFKnzede3/yRcz/sB4OaprN1l+HugNfJC14EcnAb9tLpnhbq/FcFu7a8X
+         sr1g==
+X-Gm-Message-State: AOJu0YwRoP1+DA0GlRl39cXLnL0YCOAT9i1KZIc3n9bJ5ahe73BXpEph
+	5rpCFmV9g7uNzX6/JzSfzMjmMRDUSrfZ8KqUVOhrSZyoBZBRo44f+q352chdPnigc8duIZJPVzN
+	l75+UAH84c2FUs3GHBXKBC7EyeGnBeXehnUs=
+X-Google-Smtp-Source: AGHT+IEjO0Hyfm1GpeQqIONHtbOGa0mptX9W3GQy+Ipj2qrV4B6RTZ/CC8T3ekSQf5mvanAUzJbVm4HTTSvON2LyJH4=
+X-Received: by 2002:a05:6512:3e1e:b0:513:4fb4:5388 with SMTP id
+ i30-20020a0565123e1e00b005134fb45388mr670738lfv.41.1710400371789; Thu, 14 Mar
+ 2024 00:12:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-From: "Kernel.org Bugbot" <bugbot@kernel.org>
-To: linux-gpio@vger.kernel.org, bugs@lists.linux.dev, 
- linus.walleij@linaro.org
-Message-ID: <20240131-b217334c12-ebf9106d8ac9@bugzilla.kernel.org>
-In-Reply-To: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
-References: <20230419-b217334c0-3101f9f4b426@bugzilla.kernel.org>
-Subject: Re: inux ockchip pio2b4 (pio2b5) pio2b7 roken GRF_PIO2BL_IOMUX
- GRF_PIO2BH_IOMUX 2bits 3bits pinctrl rk332_mux_ecalced_data
-X-Bugzilla-Product: Linux
-X-Bugzilla-Component: Kernel
-X-Mailer: peebz 0.1
+From: Eva Kurchatova <nyandarknessgirl@gmail.com>
+Date: Thu, 14 Mar 2024 09:12:40 +0200
+Message-ID: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
+Subject: Boot hang with SiFive PLIC when routing I2C-HID level-triggered interrupts
+To: linux-riscv <linux-riscv@lists.infradead.org>
+Cc: bugs@lists.linux.dev, linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-antwain.schneider added an attachment on Kernel.org Bugzilla:
+If an I2C-HID controller level-triggered IRQ line is routed directly as
+a PLIC IRQ, and we spam input early enough in kernel boot process
+(Somewhere between initializing NET, ALSA subsystems and before
+i2c-hid driver init), then there is a chance of kernel locking up
+completely and not going any further.
 
-Created attachment 305801
-here is the page in the trm that describes the registers in question
+There are no kernel messages printed with all the IRQ, task hang
+debugging enabled - other than (sometimes) it reports sched RT
+throttling after a few seconds. Basic timer interrupt handling is
+intact - fbdev tty cursor is still blinking.
 
-if you can't read the pdf here is a png
+It appears that in such a case the I2C-HID IRQ line is raised; PLIC
+notifies the (single) boot system hart, kernel claims the IRQ and
+immediately completes it by writing to CLAIM/COMPLETE register.
+No access to the I2C controller (OpenCores) or I2C-HID registers
+is made, so the HID report is never consumed and IRQ line stays
+raised forever. The kernel endlessly claims & completes IRQs
+without doing any work with the device. It doesn't always end up this
+way; sometimes boot process completes and there are no signs of
+interrupt storm or stuck IRQ processing afterwards.
 
-File: 1.png (image/png)
-Size: 4.24 MiB
-Link: https://bugzilla.kernel.org/attachment.cgi?id=305801
----
-here is the page in the trm that describes the registers in question
+There was a suspicion this has to do with SiFive PLIC being
+not-so-explicit about level triggered interrupts. The research of this
+issue led this way: There is another DT PLIC binding; a THead one,
+and it has a flag `PLIC_QUIRK_EDGE_INTERRUPT` which allows
+to define IRQ source behavior as 2-cells in DT; and has some other
+changes to the logic (more on that below).
+When attempting to mimic a THead PLIC in kernel DT, and rewriting
+all DT interrupt sources to use 2-cell description, the hang ceases to
+happen. Curious as to what are the kernel side implications of this,
+I went to see what `PLIC_QUIRK_EDGE_INTERRUPT` actually does and
+bit-by-bit disabled the actual differences this flag makes in the
+driver logic.
 
-You can reply to this message to join the discussion.
--- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (peebz 0.1)
+This return path in irq-sifive-plic.c@223
+(https://elixir.bootlin.com/linux/latest/source/drivers/irqchip/irq-sifive-plic.c#L223)
+is only enabled for SiFive PLIC, but not for THead one. Removing
+those 2 lines of code from the driver (whilst keeping the DT binding
+properly reporting a SiFive PLIC) fixes the hang. I am not an expert
+on the PLIC driver to debug further or determine what would be a
+proper fix to this, but this probably gets more experienced devs
+somewhere (I hope).
 
+This is reproducible at least from Linux 6.4.1 to Linux 6.7.9 on RVVM;
+Affects any hardware that would have SiFive PLIC + I2C-HID combination;
+Most likely this is reproducible on QEMU as well if it had i2c-hid emulation,
+or if we passthrough physical I2C-HID device & inject PLIC IRQs from
+it's IRQ line.
