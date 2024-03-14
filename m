@@ -1,110 +1,176 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73ED5A4FD
-	for <bugs@lists.linux.dev>; Thu, 14 Mar 2024 07:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31827641B;
+	Thu, 14 Mar 2024 21:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710400375; cv=none; b=DeMg8WYmk0rccoSeULeLFCmozcL+WcRLdqZfgAAtIceLl++5wwEOpA0dyjNzGKp9YeygL3yr3oV6AMKoVXtGHHyH357JgdFITvXK0VPbsHB4gJJdhwas9Q9PyHEdP/ZPoq/ccdzpY5605xDJDT316Gx8ttfBrYHohqLXxVNA0bs=
+	t=1710452804; cv=none; b=RTIG5cfnRDLetp92eGXApT8804LY6wizXNRnwM1dml9DhQBsgEBVtjpVwNDWBx8nMq3ScLSopCx/z0iW8RGujz6x7XosOCeSBqyL5BZv+Ix8PcONHlJV1DwTgMEbn/ZWygziEC6tfFHf1LKZIVGZbFarNFk2aKuQNg5/XPm9Q70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710400375; c=relaxed/simple;
-	bh=3NVA96cL/X1I7WqZvh883rB2R1562Xmgvbo2h1NKsxc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=UtyrDWqumw1hMZrltrc7WTtAO9oklG0C4q3q0w2heOAOh2bW3kkK3ipZuqsoLRbFOu9HTbdfrBukxEyOh9R6kIW6YthP/bfbLtczUc8tCBiwmSodqQGqUJ0ArFS6avmeSXnTYlqsnImIv9wBck6L7XaMGDQpToI2/YLKWq+nnUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q3CP0vtT; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710452804; c=relaxed/simple;
+	bh=/2od1+DS2akp8OKCYAE5pl/cHr9uEBHeLESjE/2dc88=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WhQvHDm+x3OUiaN+BY/CagOV7/vRWgOPHoo43UnNXZa9VzcODLBvjqYsXwMEXebibARzsc+oZ+L+0jZqIoqCdWisNeRMiQVoav5R7VoGF6Hkkc7Dc1OOFPPiyEJFuqSw8MbdM07Ds7ZsgRD6OB3fSxCFk0Sf+J0gSIYtahNBx2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4DLrRAR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q3CP0vtT"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-512f54fc2dbso676360e87.1
-        for <bugs@lists.linux.dev>; Thu, 14 Mar 2024 00:12:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710400372; x=1711005172; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3NVA96cL/X1I7WqZvh883rB2R1562Xmgvbo2h1NKsxc=;
-        b=Q3CP0vtTqxjzb4WHKNhByxYDYUn2CvymKJavnSPs9RgF5ugK391lFrsEhE4zFhqB9T
-         7Df89lgACcrHLtoqL1nKKXJwTRyLIxaNz9fel/F2WY8DiY/HqfNnlEoW/DCu/Uz2U7zt
-         zyVYlm+/it0tslaZHsFCJYm3Ue59gG6bo+30IOsJQ3oyyetJ5GwJed5XlJtnlexrCc03
-         W1lxYoaSj3yWjN5SBcZBC4IHkwCTX724NsmwW3DjU12i/Z7UU0AXZ1m/VjfJW+knXL5o
-         Wt5jFf5hZatZhKwgOYzOJpEBX4HCWvUYVzhfCbW+wrAhO2uwxk0GwZ9IkY45pdqqkGwX
-         Jk/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710400372; x=1711005172;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3NVA96cL/X1I7WqZvh883rB2R1562Xmgvbo2h1NKsxc=;
-        b=eMRO5GWoc8TzFE3MLl670TELmc0n69uQRk8W3l6ful6E5zt2AtqHpn3nvnKgCwbThY
-         qgkTP1SPefONqjXsHFsc4JNtGXVk0RSWrc08h/bM1ws7IRLwcM/aMm31Vj1a7mou0fHn
-         LMBKk/KBd+t9FpdMYd8mmcUuHGzKDu6jjmikoeC+oSSPm4RFhYuD5ajfcl7TY2LGoXvu
-         sE08whc/sZHJ7miNzOcqXgOD8MO+xmyof+wWKrzo7FtufjbnVUgJPnOAz/zoUHut4HX5
-         TMxhzkDNSfzoFKnzede3/yRcz/sB4OaprN1l+HugNfJC14EcnAb9tLpnhbq/FcFu7a8X
-         sr1g==
-X-Gm-Message-State: AOJu0YwRoP1+DA0GlRl39cXLnL0YCOAT9i1KZIc3n9bJ5ahe73BXpEph
-	5rpCFmV9g7uNzX6/JzSfzMjmMRDUSrfZ8KqUVOhrSZyoBZBRo44f+q352chdPnigc8duIZJPVzN
-	l75+UAH84c2FUs3GHBXKBC7EyeGnBeXehnUs=
-X-Google-Smtp-Source: AGHT+IEjO0Hyfm1GpeQqIONHtbOGa0mptX9W3GQy+Ipj2qrV4B6RTZ/CC8T3ekSQf5mvanAUzJbVm4HTTSvON2LyJH4=
-X-Received: by 2002:a05:6512:3e1e:b0:513:4fb4:5388 with SMTP id
- i30-20020a0565123e1e00b005134fb45388mr670738lfv.41.1710400371789; Thu, 14 Mar
- 2024 00:12:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4DLrRAR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3266C43394;
+	Thu, 14 Mar 2024 21:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710452804;
+	bh=/2od1+DS2akp8OKCYAE5pl/cHr9uEBHeLESjE/2dc88=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U4DLrRARj2zmrrmzBtZx1Am32ATALTBimfIcBHdt8rBy+ZteyZkklbW6rQt4BUSBM
+	 qT+9SlGVguYxJSZX0MGlLy/ojp2P8phVeVU5rhKNFpCSQKWulO81Uosk0b12Sh5BHe
+	 WmltGWurLBW9XXlbYvEDETl3Cr7ycbj78CB3Q5sJK/1EJHXwvNXusUCwX8w/Or3UAx
+	 5GsVAFsThfyef6YLUqMs+xDxN6+HKb7fmRI6tJxAPFk1lexLvKbJ37qFGYKzIxPH5D
+	 kpDtS/avjYd7m56x5wekY5WlZMq9b62JYGc1LqSCpL9cQa+0fjAzPUlbRTqxgRTaPc
+	 0kftrIUf/Fh5A==
+Date: Thu, 14 Mar 2024 21:46:40 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Eva Kurchatova <nyandarknessgirl@gmail.com>
+Cc: linux-riscv <linux-riscv@lists.infradead.org>, bugs@lists.linux.dev,
+	linux-i2c@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: Boot hang with SiFive PLIC when routing I2C-HID level-triggered
+ interrupts
+Message-ID: <20240314-sublevel-jargon-4234df3fa614@spud>
+References: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Eva Kurchatova <nyandarknessgirl@gmail.com>
-Date: Thu, 14 Mar 2024 09:12:40 +0200
-Message-ID: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
-Subject: Boot hang with SiFive PLIC when routing I2C-HID level-triggered interrupts
-To: linux-riscv <linux-riscv@lists.infradead.org>
-Cc: bugs@lists.linux.dev, linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="iXQ/4Ga64dEQTg/D"
+Content-Disposition: inline
+In-Reply-To: <CA+eeCSPUDpUg76ZO8dszSbAGn+UHjcyv8F1J-CUPVARAzEtW9w@mail.gmail.com>
 
-If an I2C-HID controller level-triggered IRQ line is routed directly as
-a PLIC IRQ, and we spam input early enough in kernel boot process
-(Somewhere between initializing NET, ALSA subsystems and before
-i2c-hid driver init), then there is a chance of kernel locking up
-completely and not going any further.
 
-There are no kernel messages printed with all the IRQ, task hang
-debugging enabled - other than (sometimes) it reports sched RT
-throttling after a few seconds. Basic timer interrupt handling is
-intact - fbdev tty cursor is still blinking.
+--iXQ/4Ga64dEQTg/D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It appears that in such a case the I2C-HID IRQ line is raised; PLIC
-notifies the (single) boot system hart, kernel claims the IRQ and
-immediately completes it by writing to CLAIM/COMPLETE register.
-No access to the I2C controller (OpenCores) or I2C-HID registers
-is made, so the HID report is never consumed and IRQ line stays
-raised forever. The kernel endlessly claims & completes IRQs
-without doing any work with the device. It doesn't always end up this
-way; sometimes boot process completes and there are no signs of
-interrupt storm or stuck IRQ processing afterwards.
+Hey,
 
-There was a suspicion this has to do with SiFive PLIC being
-not-so-explicit about level triggered interrupts. The research of this
-issue led this way: There is another DT PLIC binding; a THead one,
-and it has a flag `PLIC_QUIRK_EDGE_INTERRUPT` which allows
-to define IRQ source behavior as 2-cells in DT; and has some other
-changes to the logic (more on that below).
-When attempting to mimic a THead PLIC in kernel DT, and rewriting
-all DT interrupt sources to use 2-cell description, the hang ceases to
-happen. Curious as to what are the kernel side implications of this,
-I went to see what `PLIC_QUIRK_EDGE_INTERRUPT` actually does and
-bit-by-bit disabled the actual differences this flag makes in the
-driver logic.
+I'm not really all that familar with the plic driver itself, so adding
+Samuel and Thomas who will (hopefully) understand this better than me.
 
-This return path in irq-sifive-plic.c@223
-(https://elixir.bootlin.com/linux/latest/source/drivers/irqchip/irq-sifive-plic.c#L223)
-is only enabled for SiFive PLIC, but not for THead one. Removing
-those 2 lines of code from the driver (whilst keeping the DT binding
-properly reporting a SiFive PLIC) fixes the hang. I am not an expert
-on the PLIC driver to debug further or determine what would be a
-proper fix to this, but this probably gets more experienced devs
-somewhere (I hope).
+On Thu, Mar 14, 2024 at 09:12:40AM +0200, Eva Kurchatova wrote:
+> If an I2C-HID controller level-triggered IRQ line is routed directly as
+> a PLIC IRQ, and we spam input early enough in kernel boot process
+> (Somewhere between initializing NET, ALSA subsystems and before
+> i2c-hid driver init), then there is a chance of kernel locking up
+> completely and not going any further.
+>=20
+> There are no kernel messages printed with all the IRQ, task hang
+> debugging enabled - other than (sometimes) it reports sched RT
+> throttling after a few seconds. Basic timer interrupt handling is
+> intact - fbdev tty cursor is still blinking.
+>=20
+> It appears that in such a case the I2C-HID IRQ line is raised; PLIC
+> notifies the (single) boot system hart, kernel claims the IRQ and
+> immediately completes it by writing to CLAIM/COMPLETE register.
+> No access to the I2C controller (OpenCores) or I2C-HID registers
+> is made,
 
-This is reproducible at least from Linux 6.4.1 to Linux 6.7.9 on RVVM;
-Affects any hardware that would have SiFive PLIC + I2C-HID combination;
-Most likely this is reproducible on QEMU as well if it had i2c-hid emulation,
-or if we passthrough physical I2C-HID device & inject PLIC IRQs from
-it's IRQ line.
+This immediately seemed odd to me, but I have no reason to disbelieve
+you, given you say this was discovered in RVVM which is an emulator and
+you should know whether or not registers are accessed.
+The very first action taken by the ocores i2c controller driver when it
+gets an interrupt though is to read a register:
+
+	u8 stat =3D oc_getreg(i2c, OCI2C_STATUS);
+
+I would expect that this handler would be called, and therefore you'd
+see the register read, had the probe function of that driver run to
+completion. I'd also expect that the interrupt would not even be
+unmasked if that probe function had failed.
+In your case though, you can see that the interrupt is not masked,
+since it is being raised and handled repeatedly by the PLIC driver.
+Has the i2c controller driver probed in the period of boot that you say
+this problem manifests?
+
+> so the HID report is never consumed and IRQ line stays
+> raised forever. The kernel endlessly claims & completes IRQs
+> without doing any work with the device. It doesn't always end up this
+> way; sometimes boot process completes and there are no signs of
+> interrupt storm or stuck IRQ processing afterwards.
+>=20
+> There was a suspicion this has to do with SiFive PLIC being
+> not-so-explicit about level triggered interrupts. The research of this
+> issue led this way: There is another DT PLIC binding; a THead one,
+> and it has a flag `PLIC_QUIRK_EDGE_INTERRUPT` which allows
+> to define IRQ source behavior as 2-cells in DT; and has some other
+> changes to the logic (more on that below).
+> When attempting to mimic a THead PLIC in kernel DT, and rewriting
+> all DT interrupt sources to use 2-cell description, the hang ceases to
+> happen. Curious as to what are the kernel side implications of this,
+> I went to see what `PLIC_QUIRK_EDGE_INTERRUPT` actually does and
+> bit-by-bit disabled the actual differences this flag makes in the
+> driver logic.
+>=20
+> This return path in irq-sifive-plic.c@223
+> (https://elixir.bootlin.com/linux/latest/source/drivers/irqchip/irq-sifiv=
+e-plic.c#L223)
+> is only enabled for SiFive PLIC, but not for THead one. Removing
+> those 2 lines of code from the driver (whilst keeping the DT binding
+> properly reporting a SiFive PLIC) fixes the hang. I am not an expert
+> on the PLIC driver to debug further or determine what would be a
+> proper fix to this, but this probably gets more experienced devs
+> somewhere (I hope).
+
+I'm not really familiar with this code either, but just checking what
+the affect of your changes are, AFAICT it just sets the handler to be
+handle_fasteoi_irq(), I noticed that that function has some code that
+will mask the irq if there's no handler registered for that particular
+interrupt:
+https://elixir.bootlin.com/linux/latest/source/kernel/irq/chip.c#L710
+
+It seems like in your case there might not be one registered (as the
+i2c controller's interrupt handler never performs it's first access),
+so I'm wondering if that masking of the interrupt when no action is
+registered is what solves the problem for you.
+
+That's mostly just speculation though, because I am not an expert on the
+PLIC driver either.
+
+> This is reproducible at least from Linux 6.4.1 to Linux 6.7.9 on RVVM;
+
+I clearly cannot make any definitive statements because I'm just
+speculating here after all based on this mail, as there's no logs and I
+have not tried to reproduce this, but this does seem like the interrupt
+is unmasked before the i2c controller driver has even requested it.
+Ordinarily (at least on the hardware I have done any testing of
+interrupts on) the interrupts are masked by default and only get
+unmasked when there's a user for it in the kernel.
+
+Are interrupts unmasked by default on RVVM?
+
+> Affects any hardware that would have SiFive PLIC + I2C-HID combination;
+
+Have you checked that this actually affects any actual hardware?
+
+Thanks,
+Conor.
+
+> Most likely this is reproducible on QEMU as well if it had i2c-hid emulat=
+ion,
+> or if we passthrough physical I2C-HID device & inject PLIC IRQs from
+> it's IRQ line.
+
+--iXQ/4Ga64dEQTg/D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfNwQAAKCRB4tDGHoIJi
+0j/gAP49veZAGuKcvAfq0Lh0oFqcH3fKhBfWU9XHTyak9/a5iwD9FrxTiWU0yMSf
+xQBVMWw1oap+RZ6q9cZRv422KdRtFAI=
+=jDN5
+-----END PGP SIGNATURE-----
+
+--iXQ/4Ga64dEQTg/D--
