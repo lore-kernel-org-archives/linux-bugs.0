@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609D81C1AD7
-	for <bugs@lists.linux.dev>; Thu, 12 Sep 2024 21:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563241547EB;
+	Fri, 13 Sep 2024 22:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726175487; cv=none; b=ZoFCDoCufrLPAfIZP6UxXn9wihNfAQKWbcvx3aCPFOoEjodK9sPYtUw6CFh0jRzBGsGICiHq8V+hqd+ypKLvh/yCPqissF2uIVcVCqcVkBqtf/Jd4sjNRYOjrNWgW6j4XJ2RTshHg5nWWvl3zgSeuctIGddx4Yn5tKvcTDvvPCE=
+	t=1726264811; cv=none; b=VtPjxllqURA8ZK4mvABibzpONJOQteYiGtDd4E8gb85u2jLL/nf3XrUtmSJkXtZuMnae896NPLbkzshXy+E5kfxtLCtH2XCAnfkaB4L8RSD6yyiQBp+WC1oDWAkPxtJvzzlhycTAhURcm9NwzGOXG7Qf2h3sAQrvBawzLS3W+7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726175487; c=relaxed/simple;
-	bh=vuJH6SV1Jdylp2QczYI/a9/P9LPhheBvtqYB/WG7iLg=;
-	h=Date:MIME-Version:Content-Type:From:To:Message-ID:In-Reply-To:
-	 References:Subject; b=bzc/d3dBtfqFW7nKuF4yk3dukLa3damGyvtufit8FtFOi1hcrA/tb0VRidg0SmZ0CMk0DnXUEgd4GygXhByInwYeYQyw+vTul5u8S/Ipc+vVYlHaLNK6N6B6mACz+dN84E2RYkVqDO68x1yIsNFVU0StE2uYBHzyWoQVNuFOiRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/KJRxly; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726264811; c=relaxed/simple;
+	bh=T7zJ51GhAWBjN1SnUe+fJR90Ve3aonwh5XnX5zJ4TgM=;
+	h=Date:MIME-Version:Content-Type:From:To:Message-ID:Subject; b=hvVw6jnPQmasICfUtn1k8ScgCNOzz1/MW3R0gTxFKqtLUicBEe+I5FLQ33SiNQHAPQ3x3BDBAGUKUehGkNfUnpmXhcS6SvmitQ/OJ7S7Kj3CwpGNsQPeGbRzGf5XSxceDJDINj5im7d6Hfys+a3+zpwB4qpKBc9YoD1LPTuI4nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gs+LpAzd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/KJRxly"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2D41C4CEC5;
-	Thu, 12 Sep 2024 21:11:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gs+LpAzd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD7EC4CEC0;
+	Fri, 13 Sep 2024 22:00:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726175487;
-	bh=vuJH6SV1Jdylp2QczYI/a9/P9LPhheBvtqYB/WG7iLg=;
-	h=Date:From:To:In-Reply-To:References:Subject:From;
-	b=p/KJRxlyo8lhABGwVqFzk2BBGi7SY/q3yDvx0/wtegITnwZyn2Jv8HoODPnICS0Iv
-	 pbpAyKjin9yS0FgXNupMEN4yNjD/490gGPImERhvg/p615lG0CDobDRjxNDo0j63Ji
-	 aMh7ir57jZJsDOFXJBzKFueMF2CiNiGLdobGAAgklZ5/OYIjS/Avcv8yRjsGZA4/7k
-	 oiPDQdoJMsxBAhznq0R6RNLNbYt82huMTQHrlOa9flW8lYcemjkFy2gZIJmYQolnDl
-	 4M/qFKA4jwBnTp1cZxqYhdyx9BmYLhrfOyg+usZ7lDarAxF1eCT4rLQMFkuQkrjqrG
-	 8r4dGd5fge0BQ==
+	s=k20201202; t=1726264810;
+	bh=T7zJ51GhAWBjN1SnUe+fJR90Ve3aonwh5XnX5zJ4TgM=;
+	h=Date:From:To:Subject:From;
+	b=gs+LpAzdC4hUOJVBla7XqjJib1FlUTEN78Q+ffPBjXJ3g/ieVJRLOV5xJE7ViW482
+	 Fno5VHtGvjq+EhzfrtwIiGwQ2h3/0zf4rBRWfz+LYhrNqQDWnketepfGjyhNQzm4zT
+	 VQDzEXMDGJsxS/trKsTKsswQ20fcS18fZuH5Q2xP5rJvR1tSOZ0836NbAHV+sDgnz+
+	 OOMPw/k+kxeyT5dlxk/6EP8sNV5U9ikq6M3kgk7BzbqMuqwrlcTPb2Z9pr6NlFbGkI
+	 VigiulyBsA9z/8S/opu6B8DOx4RrqeBHlnhiVmw117zkbZuMZXcacYJcc5Mi5+UEz3
+	 n3uF+8fGph+jg==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70F093806644;
-	Thu, 12 Sep 2024 21:11:29 +0000 (UTC)
-Date: Thu, 12 Sep 2024 21:10:13 +0000
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B42E3806656;
+	Fri, 13 Sep 2024 22:00:13 +0000 (UTC)
+Date: Fri, 13 Sep 2024 22:00:10 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -39,21 +38,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 From: Bugspray Bot <bugbot@kernel.org>
-To: akpm@linux-foundation.org, bugs@lists.linux.dev, linux-mm@kvack.org
-Message-ID: <20240912-b219227c4-a6fc0c55d402@bugzilla.kernel.org>
-In-Reply-To: <20240912-b219227c0-78bee9e213fc@bugzilla.kernel.org>
-References: <20240912-b219227c0-78bee9e213fc@bugzilla.kernel.org>
-Subject: Re: MDWE does not prevent read-only, executable, shared memory
- regions to be updated by backing file writes
+To: tglx@linutronix.de, bugs@lists.linux.dev, frederic@kernel.org, 
+ anna-maria@linutronix.de, linux-kernel@vger.kernel.org
+Message-ID: <20240913-b217598c0-81d4abf24530@bugzilla.kernel.org>
+Subject: setitimer works incorrectly
 X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: bugspray 0.1-dev
 
-mricon writes via Kernel.org Bugzilla:
+vladimir.mezentsev writes via Kernel.org Bugzilla:
 
-Assigning to MM and invoking bugbot.
+A small test below shows the problem with the itimer setting on OL8 (x86_64 / aarch64)
 
-View: https://bugzilla.kernel.org/show_bug.cgi?id=219227#c4
+% cat sig.c
+#include<stdio.h>
+#include <stdlib.h>
+#include<signal.h>
+#include <time.h>
+#include <sys/time.h>
+#include <string.h>
+
+#ifndef MY_TIMER
+#define MY_TIMER 1000
+#endif
+
+static time_t start;
+static int sigprof_cnt = 0;
+
+time_t
+gethrtime (void)
+{
+  struct timespec tp;
+  time_t rc = 0;
+  int r = clock_gettime (CLOCK_MONOTONIC, &tp);
+  if (r == 0)
+    rc = ((time_t) tp.tv_sec) * 1e9 + (time_t) tp.tv_nsec;
+  return rc;
+}
+
+static void sigprof_handler(int signo, siginfo_t* info, void *context)
+{
+  if (++sigprof_cnt >= 3)
+    exit(0);
+  static struct itimerval t;
+  memset(&t, 0, sizeof(t));
+  if (getitimer(ITIMER_PROF, &t) != 0)
+    printf("getitimer failed\n");
+  printf("sigprof_handler: it_interval.tv_sec=%lld it_interval.tv_usec=%lld\n"
+         "                    it_value.tv_sec=%lld it_value.tv_usec=%lld\n",
+    (long long) t.it_interval.tv_sec, (long long) t.it_interval.tv_usec,
+    (long long) t.it_value.tv_sec, (long long) t.it_value.tv_usec);
+}
+
+volatile long x; /* temp variable for long calculation */
+
+int
+main (int argc, char **argv)
+{
+  long long count = 0;
+  start = gethrtime ();
+
+  struct sigaction sa;
+  memset(&sa, 0, sizeof(struct sigaction));
+  sa.sa_sigaction = sigprof_handler;
+  sa.sa_flags = SA_RESTART | SA_SIGINFO;
+  sigemptyset(&sa.sa_mask);
+
+  if (sigaction(SIGPROF, &sa, NULL) == -1)
+    {
+       perror("sigaction");
+       return 1;
+    }
+
+  static struct itimerval timer;
+  memset(&timer, 0, sizeof(timer));
+  timer.it_interval.tv_usec = MY_TIMER;
+  timer.it_value.tv_usec = MY_TIMER;
+  if (setitimer(ITIMER_PROF, &timer, NULL) != 0)
+    {
+      printf("Timer could not be initialized \n");
+      return 1;
+    }
+
+  struct itimerval t;
+  memset(&t, 0, sizeof(t));
+  if (getitimer(ITIMER_PROF, &t) != 0)
+    {
+      printf("getitimer failed\n");
+      return 1;
+    }
+  printf("After setitimer: it_interval.tv_sec=%lld it_interval.tv_usec=%lld\n"
+         "                    it_value.tv_sec=%lld it_value.tv_usec=%lld\n",
+    (long long) t.it_interval.tv_sec, (long long) t.it_interval.tv_usec,
+    (long long) t.it_value.tv_sec, (long long) t.it_value.tv_usec);
+
+  do
+    {
+      x = 0;
+      for (int j = 0; j < 1000000; j++)
+        x = x + 1;
+      count++;
+    }
+  while (start + 1e9 / 4 > gethrtime ());
+  printf("count=%lld  x=%lld\n", count, x);
+  return 0;
+}
+
+
+
+It is from man page:
+% man setitimer
+...
+   setitimer()
+       If either field in new_value.it_value is nonzero, then the timer is arme to initially expire at the specified time.
+
+
+But this is not right on x86_64 and aarch64. I run this test on OL8.
+
+On x86_64 / OL8:
+% gcc -DMY_TIMER=1000 sig.c; ./a.out
+After setitimer: it_interval.tv_sec=0   it_interval.tv_usec=1000
+                    it_value.tv_sec=0      it_value.tv_usec=2000 <<<<<< this should be <= 1000 because I set it_value.tv_usec to 1000 in setitimer
+
+sigprof_handler: it_interval.tv_sec=0   it_interval.tv_usec=1000
+                    it_value.tv_sec=0      it_value.tv_usec=23
+sigprof_handler: it_interval.tv_sec=0   it_interval.tv_usec=1000
+                    it_value.tv_sec=0      it_value.tv_usec=27
+
+
+
+On aarch64 / OL8:
+
+% gcc -DMY_TIMER=1000 sig.c; ./a.out
+After setitimer: it_interval.tv_sec=0   it_interval.tv_usec=1000
+                    it_value.tv_sec=0 it_value.tv_usec=5000    <<<<<< Same as on x86_64
+
+sigprof_handler: it_interval.tv_sec=0   it_interval.tv_usec=1000
+                    it_value.tv_sec=0 it_value.tv_usec=4000 <<<<<< this must be <= 1000 because it_interval.tv_usec is 1000
+
+sigprof_handler: it_interval.tv_sec=0   it_interval.tv_usec=1000
+                    it_value.tv_sec=0      it_value.tv_usec=4000<<<<<< this must be <= 1000 because it_interval.tv_usec is 1000
+
+View: https://bugzilla.kernel.org/show_bug.cgi?id=217598#c0
 You can reply to this message to join the discussion.
 -- 
 Deet-doot-dot, I am a bot.
