@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD15D139CE9;
-	Tue, 24 Sep 2024 19:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E716116D9AE;
+	Fri, 27 Sep 2024 02:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727206217; cv=none; b=MVM0Rh4S9J7kRgKUxm1TFgf7TMWc8LQpucwHahi2EKOGWp7MvNPI/S5JtpDmBDqqu5RFYNpaTow4BRG+E1Rrb4er6ux0VzBwMybUY0pvh+NUq23IuyQQ+iWCWabinSsrZQ0ArlFBmaXYTTxg+/8/JGSRAuFYDr+xJ36cfwo3nAs=
+	t=1727403008; cv=none; b=I5w67h190DZ2KvAUg+MhJGSfzq9c1MG6dZaRyPayp0vvTBzzL3gW7mjHnJaKfQeeiXH4vqoxGB9A+7npvdl3T8mfucZWPZ8AFJTSvY0kVwNPKAUc9i25rkHjGqTDBZUVVmgScnmdFsK2fOns7RJFQGfZ15cXKnyz2LU+LCYcffE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727206217; c=relaxed/simple;
-	bh=v47Bvjoe610f24LOpjaYw5B1xmjPdEOWX/uhevYqotg=;
+	s=arc-20240116; t=1727403008; c=relaxed/simple;
+	bh=bRDDcD+o03ffd1dhPD/qxtKBBlnOK8itG0whlQOPq6w=;
 	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
-	 References:Subject; b=W9Wh3PJW1LtpDXmSDeKtyT8Dk+gwJubs4MgXsTfL0AYMhjA9DIseNr95LjfUkt2KfQ1lc337N3HBi+std5dMd9CAaBwRZFiHZCsFznlm4aWmtkVinyOHa0p83LFp7Y98pfXuQ3NOFimTNdGpMckI/LRDxPCTB54fNeS4yge3iEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uR1wrzY8; arc=none smtp.client-ip=10.30.226.201
+	 References:Subject; b=MjdExDkO4H+Wk2RTQhgAWXMGoDN4Cx6MidnF0AYbZTG+4eWQOJ27k28588POeSV+JfHdxeLPi7T4L3FUQwgzEJbeqgs9+lY401USTmh2hZ0uBponzYKwnkCfN3k5fbx3K8AtMJkARuYGR3GZ+DPduZplCPXet/aP7e1+Zs0a+QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfP+CkNc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uR1wrzY8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7012C4CEC4;
-	Tue, 24 Sep 2024 19:30:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfP+CkNc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B20C4CECD;
+	Fri, 27 Sep 2024 02:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727206216;
-	bh=v47Bvjoe610f24LOpjaYw5B1xmjPdEOWX/uhevYqotg=;
+	s=k20201202; t=1727403007;
+	bh=bRDDcD+o03ffd1dhPD/qxtKBBlnOK8itG0whlQOPq6w=;
 	h=From:Date:To:In-Reply-To:References:Subject:From;
-	b=uR1wrzY8aP2XSGkdy+ST8JDu4VE+//08cCmDgJeP+UxehqkaVHrA5dbryT7tlIB15
-	 oA2NRDWrTCDoK2Y7OlwdPyzHLpu1OHbFrGRMEAz2uNxvQbdB7UaiHhj8StztkCLP4g
-	 X3TY7AJlFAQfeYrmS/9bDuMgDSwuhQiJmz3PfP+q24kip8Xgx575fnV7Cj36PTcXgY
-	 Z+7A/zNPFxhOsRvAzsGOMlFsgscG75Lgd4AzIs72MbPNlSFvJ2sdym+HDOIfXwQPHH
-	 k9MPPrL6dwltVQ5C3jiaKBsOO0qJnbjF3EHpc0pOZQcXAIv5KpqBpB5YpPTwXtAEIl
-	 /xChKH1dPZCSQ==
+	b=JfP+CkNcKa5JRcLHADwAPiHd300pMB/xH0i69Mn2r2XFcuuERS4HdfQNpEejSYJq2
+	 k6m5BG+8ZrToAifRyvkNEtCP64z11lJvy3XrxDycHwlE9RL5c2Luc3Cs0e+eZb+UqO
+	 0j2mhR1crr9g+YscLTuKPd0JcUZxaDZIslGzEfxYNh8xM52SPZqc+fsOqwAPptmeue
+	 dxc1bRHNTEhCdhIIO2NiyooqxX8quRSsjcN2WSx7nck8kcegHcowf+5q1Is1Rk1ZVa
+	 b01py7eyII7P5TOBN4Mu210bykr8VtemAUldIHM7c194QE0ZorqLSqtVEaUrg4Urb7
+	 J7Bms3I/tIZYg==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 714F33806656;
-	Tue, 24 Sep 2024 19:30:20 +0000 (UTC)
-From: gfrank227 via Bugspray Bot <bugbot@kernel.org>
-Date: Tue, 24 Sep 2024 19:30:14 +0000
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 39CD33809A90;
+	Fri, 27 Sep 2024 02:10:11 +0000 (UTC)
+From: abhishek via Bugspray Bot <bugbot@kernel.org>
+Date: Fri, 27 Sep 2024 02:10:07 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -39,9 +39,9 @@ List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-To: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org, 
+To: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, 
  bugs@lists.linux.dev
-Message-ID: <20240924-b219303c2-4b15de8a871d@bugzilla.kernel.org>
+Message-ID: <20240927-b219303c3-01cd46af2ad8@bugzilla.kernel.org>
 In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
 References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
 Subject: Re: Mute LED light is not working on my HP laptop
@@ -49,16 +49,19 @@ X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: bugspray 0.1-dev
 
-gfrank227 added an attachment on Kernel.org Bugzilla:
+abhishek added an attachment on Kernel.org Bugzilla:
 
-Created attachment 306915
-alsa info with light on
+Created attachment 306923
+Fix patch
 
-File: alsa-info.txt.1mKG55Txy2 (text/plain)
-Size: 43.43 KiB
-Link: https://bugzilla.kernel.org/attachment.cgi?id=306915
+Hi,
+Is it possible for you to apply this patch at your end and once check?
+
+File: hp-pavilion.patch (text/plain)
+Size: 818.00 B
+Link: https://bugzilla.kernel.org/attachment.cgi?id=306923
 ---
-alsa info with light on
+Fix patch
 
 You can reply to this message to join the discussion.
 -- 
