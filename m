@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B0C1CC8A3;
-	Tue,  1 Oct 2024 17:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F8719F48D;
+	Tue,  1 Oct 2024 22:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727804705; cv=none; b=L/FFvN/y168AQ05AZdJ1tRB14S+yeYpPi1D1V48/Kv8GA8wIMa96FOEBXzGkBq1oDh08u7tfvUBrB1GvU/7FVSe9QjSwk/trqA1eKTSspWtlmk+rj+Ks94bZfECQrH9lAf7oYr7VqQTdA2evpUSSRkREHGREw3HmzgcTRpMTROk=
+	t=1727821205; cv=none; b=ks62ht7BCaz4X9eykynOQTRLEO19Hje3557uRVr/p7zW+7fSHpOWfO4vBy7Oh7zHak7hFDjCrpuS8f9DdbzwM8GUia5NGubj6GoC1tm6L1FWKkKK5nJxepCe3JFDJIHo/JIv3i1vXC0UrWJRxYP9ledpUK8C5irGnMaQYxPyCjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727804705; c=relaxed/simple;
-	bh=cGmlGzyEVG67x2K50IvHyi/Tx0saPFW7DN8+mkLx76c=;
+	s=arc-20240116; t=1727821205; c=relaxed/simple;
+	bh=F9MnbCpcl9X9Zy5tZMWP0oiPv4qmvaGJ8tFMLmxiqQo=;
 	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
-	 References:Subject; b=eKA49/ZlBDnE3zq5kH7nfPpjGAbMsIq5IQn2IdZoL3YQVOqjhadpZLgDcUaavRobZ9+ISApXSj7cLfcmvB4HrkZs8hO5XzETTl4OeBK1qgDcRSVVJIAlVLb5LdmkImXnIUwfdfJmOWJF8xUDBZhDqErw+W/g2ZONjZSco6aoEi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TNm/rGGW; arc=none smtp.client-ip=10.30.226.201
+	 References:Subject; b=rcybehsQuQ1QpHHj22rM4aZ/9pOWue2cwmYLViAv1vyRJokPdnraMvWX5BShm1VYGVs9Rlndb+PTNnD6Voh1h3l2ENSgzOD4QlWjWiQuLgFzjWcqDHqXzjCmAtJmFIA+halyIr4D7Hz840POnWy1J/PjNWJxrGn7UeNShDYdhno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=psUvfrjL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TNm/rGGW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42028C4CEC6;
-	Tue,  1 Oct 2024 17:45:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="psUvfrjL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42427C4CEC6;
+	Tue,  1 Oct 2024 22:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727804705;
-	bh=cGmlGzyEVG67x2K50IvHyi/Tx0saPFW7DN8+mkLx76c=;
+	s=k20201202; t=1727821205;
+	bh=F9MnbCpcl9X9Zy5tZMWP0oiPv4qmvaGJ8tFMLmxiqQo=;
 	h=From:Date:To:In-Reply-To:References:Subject:From;
-	b=TNm/rGGWZT3CreG/BTSEWpbxklniFKAQ7z2ot8FWwmHNqbgjJ0ta7cDl9E4dvAD90
-	 XrBFwHkOv6RBA/Xk5z4MM1xUZlzEQrLSRbMH0Qx4kVpJpU/N6Q5XV+yjCw03rC5UHz
-	 kXceY9txJI4kUveLSKJO+mQ4S0P9xajpjhJiAXakvbwtyocLjm2y46ThR5V1WsQN57
-	 KCUHrl9TYxlm/qtvuxWYE4aE80tiewbCf+cJVPO3VYidmdNl4iahWE7tGtIuiuyrD3
-	 l1N9FubWI8yqrwHjpEFdLlIFyYkrfl8VnXhT6v5B1OwxCEX89FEVuYvrUm4Nf2EwQY
-	 MjUeafkneA1QQ==
+	b=psUvfrjLvHSsGz0oqWltPxp5/IzluSny8Q/q5nS1MDJwd7FWN1PmbtIT6KnN6OY8X
+	 nnKmsjaVywAIbSiDh5VcTu8Shw8u5zHqET0MpJrgnh4mq8+kgEW2PEtgrVEBAR6zHM
+	 NRgS3jzQ8pYOcYnkECbBJh8W8pe4ivzPDxQi+ZBrt7pNapu2dW+nJ6z/8YDnaGApkD
+	 sgE7i1LS7WDZXGfqDoScAdgOddrBlgiwc/GeWBPy4oXva4H1j8Qw5Yv8D7Up/+Fl2d
+	 bltR5X4mYyCE6bKNqqSYJ+h8qjI3S1CfmplAFMCi5JHeqFDhPm5iGynBEcI5ZRUJET
+	 XYVIw31lhnvnA==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 79B27380DBF7;
-	Tue,  1 Oct 2024 17:45:09 +0000 (UTC)
-From: Colin Ian King via Bugspray Bot <bugbot@kernel.org>
-Date: Tue, 01 Oct 2024 17:45:06 +0000
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7746D380DBF7;
+	Tue,  1 Oct 2024 22:20:09 +0000 (UTC)
+From: Helge Deller via Bugspray Bot <bugbot@kernel.org>
+Date: Tue, 01 Oct 2024 22:20:08 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -39,9 +39,9 @@ List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-To: linux-parisc@vger.kernel.org, bugs@lists.linux.dev, 
- James.Bottomley@HansenPartnership.com, deller@gmx.de
-Message-ID: <20241001-b219339c3-a45bf793c6b7@bugzilla.kernel.org>
+To: deller@gmx.de, bugs@lists.linux.dev, linux-parisc@vger.kernel.org, 
+ James.Bottomley@HansenPartnership.com
+Message-ID: <20241001-b219339c4-74b73b8edee4@bugzilla.kernel.org>
 In-Reply-To: <20241001-b219339c0-15109b153aef@bugzilla.kernel.org>
 References: <20241001-b219339c0-15109b153aef@bugzilla.kernel.org>
 Subject: Re: calling getcpu with misaligned address causes kernel panic
@@ -49,28 +49,21 @@ X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: bugspray 0.1-dev
 
-Colin Ian King writes via Kernel.org Bugzilla:
+Helge Deller writes via Kernel.org Bugzilla:
 
-arm64 and riscv returns EFAULT too, whereas x86 segfault with my tests:
+I'd assume the segfault on x86 is because of the vDSO implementation
+of getcpu() on x86, which executes vdso_read_cpunode() from
+arch/x86/include/asm/segment.h:
 
-Linux debian-11-all-h3-cc-h5 6.10.6-arm64 #1 SMP Debian 6.10.6-1 (2024-08-19) aarch64 GNU/Linux:
-mmap(NULL, 4096, PROT_READ, MAP_SHARED|MAP_ANONYMOUS, -1, 0) = 0xffffac174000
-getcpu(0xffffac174000, 0xffffac174001, NULL) = -1 EFAULT (Bad address)
+static inline void vdso_read_cpunode(unsigned *cpu, unsigned *node)
+{
+...
+        if (cpu)
+                *cpu = (p & VDSO_CPUNODE_MASK);
+        if (node)
+                *node = (p >> VDSO_CPUNODE_BITS);
 
-
-Linux starfive 5.15.0-starfive #1 SMP Fri Nov 11 06:58:52 EST 2022 riscv64 GNU/Linux:
-mmap(NULL, 4096, PROT_READ, MAP_SHARED|MAP_ANONYMOUS, -1, 0) = 0x3fb20df000
-getcpu(0x3fb20df000, 0x3fb20df001, NULL) = -1 EFAULT (Bad address)
-
-
-Linux t480 6.1.0-25-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.106-3 (2024-08-26) x86_64 GNU/Linux:
-mmap(NULL, 4096, PROT_READ, MAP_SHARED|MAP_ANONYMOUS, -1, 0) = 0x7ff780a24000
---- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_ACCERR, si_addr=0x7ff780a24000} ---
-+++ killed by SIGSEGV +++
-
-so x86-64 does behave differently with the access.
-
-View: https://bugzilla.kernel.org/show_bug.cgi?id=219339#c3
+View: https://bugzilla.kernel.org/show_bug.cgi?id=219339#c4
 You can reply to this message to join the discussion.
 -- 
 Deet-doot-dot, I am a bot.
