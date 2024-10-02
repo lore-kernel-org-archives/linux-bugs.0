@@ -1,62 +1,64 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389B41D0416
-	for <bugs@lists.linux.dev>; Wed,  2 Oct 2024 13:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866591D0BA5;
+	Wed,  2 Oct 2024 15:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727875397; cv=none; b=uqhqnpIdc+a1jC6OEsMt8Dt1OrdAYqNQ7R8yyJKKMn4Xexbe2oFTzk7EgbQN08geT0CFwYnwTLypWY6XwHM4KwJzYzkm5P/r++xr9cDVE252T/kPtcc61UjUnmjr7n89I8DkFe0V2As593xnWOjdYMfzkHOr8PzRxKy/7O/nBCU=
+	t=1727882105; cv=none; b=NkfpBvT0G8U4g2atjFae4cKn9z/84v+R6ghguThOJ5wwlC0sfaKaTD8RlrZRILP1WDVT0mPVwC7qr/ErqCu2/4Mjedtt5Tr0MKFJelIOifgeD6VJcpNFvrFPX8dae62aweO5RQmGd286LsyACTziorHsWr4So6QxUdc+Y8Ewi6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727875397; c=relaxed/simple;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=EAPfHJ3GvE6GMWC68G0YwsncHwx1qUFoMMFhCQBtB7Hjq2ijlTxIOJlQvcd/fFr58jPiYFjAmUBrrf0zDAeh66ce1/ic5ktPW+ke/TVq7oxFIQiS34apyujhxIxQbQltRtTYwu73v7HWP/9h64HPUr7XEnMRGn4PEdQWDSpV4Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iwTQBB0f; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727882105; c=relaxed/simple;
+	bh=PfQnazah1z/sNKvTGca/p7zxq+ml4pdTpgE2IHxjHLc=;
+	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
+	 References:Subject; b=GoUI62Bss5j2p6E73FN+Rgyt+c5hfCx21tQKWblxXc0jZ6d6aLH1IKENM9edga6GBm/Ks3t6jmHilMayqRJlCqpnZO7P+mr2059aSD2aFPJcYozbmPiPDMjtbfdtxBgSfPpur0vVbU7V2FNsDac+sIKF9D9er8JxJh3fMT3FcJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8BU9RJn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iwTQBB0f"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c88e45f467so1373725a12.1
-        for <bugs@lists.linux.dev>; Wed, 02 Oct 2024 06:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727875394; x=1728480194; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=iwTQBB0fQUFGIyhmjgEQOyTNnEZrbNoeBtn5hE+uKkpchQp1oH0SFIA0RbUwwPR1tU
-         ZXgEbujeZU52usslFGuEK1VeXR5jn+nxxsJlgS9b7Kb+mgagy0P1txbss5o+CkDm76TV
-         YnNaYp1YgB7fuj9B5sTm9KFx0YMKBMtaODb/xZ8ZUI7MJFiZvWG09mnnq93FBqRd8h+P
-         flfNihCJsgeGtgSu230JFrwpohJjRF/WBViyb5gxdVGEtXh0vR6KiWCD+oZMTkOjWi9r
-         IpC5rW8QbPdhGCbcJKKJqwfQc9ABKyexOCyuVhLpEBi3ewh5cUDcKD9hJWDtQMtzBYDw
-         HFEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727875394; x=1728480194;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=JENf584KudcXhkJ5KVYGCP+YZ7KCxasid9ob9b6lXdqg0kCmRZzOCABXnv3J4gMARg
-         dYEQbK9Z36IR5n8U+bCjjhnrDi3rph8mH5NrwxFFTYzBk/RYgmi+Ecm0bpZr5llJd3eQ
-         ucHeUkaxIK3hPLiK37YWJrTFHaErdE2S+vLFGRUZi0dBkcZ9BB0OdfZZ3Ctok3bdITCC
-         GrH1+peEfXqSfOnC7S8eXVQm7V1eUmbQReyG2SJ7AixYUHhHUkZGIWGPztuMlpYodobf
-         i3T5bb7QSDCXQUQLHq4M7HkiK3NrQTgWrnmm3yW/nHlkGyk1gEFNxqz/blnsriO1FTKp
-         vgfw==
-X-Gm-Message-State: AOJu0YxlZ1duTl1wTkiQ4Wx/3EwedgX0rfuhbLjLPQZP5X0tkAKCQWAF
-	Vlcln2NqjK+gf02Lrp1Bxa7p09KCS0iuZ8Ydc0zrB+23e13W793cTvrNHb6eMxoHSicz+yn7zpZ
-	eJMq9QF6MqfhyGRKlmS3eaocnWGg4DA==
-X-Google-Smtp-Source: AGHT+IEYEyDYVOYbFbet55XWJTWs4ciiIjRx0QIZS5v1jIVS+CsBoJN/Qr/ztkXTehLddSEGMLmfypHZ+VvzN3bXyuM=
-X-Received: by 2002:a05:6402:5192:b0:5c8:97b9:58a6 with SMTP id
- 4fb4d7f45d1cf-5c8b115203emr3922934a12.1.1727875394143; Wed, 02 Oct 2024
- 06:23:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8BU9RJn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E29C4CEC2;
+	Wed,  2 Oct 2024 15:15:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727882105;
+	bh=PfQnazah1z/sNKvTGca/p7zxq+ml4pdTpgE2IHxjHLc=;
+	h=From:Date:To:In-Reply-To:References:Subject:From;
+	b=e8BU9RJnn5UzldaRD0wW9cq+w9Hv/tLCvfQotuEPhSNmxdtgEWEz1YtKXkyZ8Tmnn
+	 WSXWI9+9PGyGfs61igXC0k32uzpIkLLNC6Q2nX+XTqLani3V7pZeY1nVS+tst0z9Vv
+	 AxOMgMT8HirYycO0kTseXXnlZrGMydBVITP7rHxPw6fwPv5A1m+ZNH/dkMC71Gvg0S
+	 mgzh1UDPs76m717F/dRaDd/8FGNk/gcIpYS2I2S9L9qbxIvS1Pz/uusq06k0md+4Xk
+	 wBE6EWAB+EEB7l8uhMnQbzaK0FVknihbpgVGPDdmxHDrx5fMs0CbnHU4dbyOvesSCp
+	 7jgabiQjiAXcA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 794AA3803262;
+	Wed,  2 Oct 2024 15:15:09 +0000 (UTC)
+From: abhishek via Bugspray Bot <bugbot@kernel.org>
+Date: Wed, 02 Oct 2024 15:15:12 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: xinghuo chen <xinghuochen111@gmail.com>
-Date: Wed, 2 Oct 2024 21:22:58 +0800
-Message-ID: <CAKccHm4htcFzS=3-iFcwoWCf5ROxhWfuLaC7R11x1WrzAZNsUw@mail.gmail.com>
-Subject: sub bugs
-To: bugs@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: perex@perex.cz, tiwai@suse.com, bugs@lists.linux.dev, 
+ linux-sound@vger.kernel.org
+Message-ID: <20241002-b219303c8-ea09e4d017a3@bugzilla.kernel.org>
+In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+Subject: Re: Mute LED light is not working on my HP laptop
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: bugspray 0.1-dev
 
+abhishek writes via Kernel.org Bugzilla:
+
+Hi,
+The patch has been included in the 6.12-rc1.
+
+link : https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=d75dba49744478c32f6ce1c16b5f391c2d5cef5f
+
+View: https://bugzilla.kernel.org/show_bug.cgi?id=219303#c8
+You can reply to this message to join the discussion.
+-- 
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (bugspray 0.1-dev)
 
