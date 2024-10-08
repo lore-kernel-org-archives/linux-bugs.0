@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866591D0BA5;
-	Wed,  2 Oct 2024 15:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6DBF9C0;
+	Tue,  8 Oct 2024 20:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727882105; cv=none; b=NkfpBvT0G8U4g2atjFae4cKn9z/84v+R6ghguThOJ5wwlC0sfaKaTD8RlrZRILP1WDVT0mPVwC7qr/ErqCu2/4Mjedtt5Tr0MKFJelIOifgeD6VJcpNFvrFPX8dae62aweO5RQmGd286LsyACTziorHsWr4So6QxUdc+Y8Ewi6o=
+	t=1728418804; cv=none; b=iCCk82WWH6VE0ItqZKgcCj8iq5KNk4haYh17Y0tL1uW6SoLsHjDcGZPn6raLXaSTi0sBoy5FKR8Od9j8cjxgf8+c+mi0UwvunczvtOJI/T271FHntbMj7Bt1/btDgCQdCRoROqVwrCH485ipSI0WX4+TuItFk+D/1kXGJZwJ5rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727882105; c=relaxed/simple;
-	bh=PfQnazah1z/sNKvTGca/p7zxq+ml4pdTpgE2IHxjHLc=;
+	s=arc-20240116; t=1728418804; c=relaxed/simple;
+	bh=tKuDaBHAY5bS/Mvk8poPZIufDQpu9v0AUIyS0vCRI3k=;
 	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
-	 References:Subject; b=GoUI62Bss5j2p6E73FN+Rgyt+c5hfCx21tQKWblxXc0jZ6d6aLH1IKENM9edga6GBm/Ks3t6jmHilMayqRJlCqpnZO7P+mr2059aSD2aFPJcYozbmPiPDMjtbfdtxBgSfPpur0vVbU7V2FNsDac+sIKF9D9er8JxJh3fMT3FcJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8BU9RJn; arc=none smtp.client-ip=10.30.226.201
+	 References:Subject; b=HmK36Srz46rXJMOfRpCLJky3IxaDTjFpBSiIxRzdGEbh30TzsL/LM40Vf6qBwcImHWyicznBANmXjVyXAanm8zl+xgToIw8aIzvhT62Wi+NyYJM2glhWj94V9V0y2yFvH7EUMaPqUVg8sUWMa8D6GI/aqUzHK3I8R7HxZPquRiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=an+BPEgD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8BU9RJn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E29C4CEC2;
-	Wed,  2 Oct 2024 15:15:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="an+BPEgD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2133CC4CEC7;
+	Tue,  8 Oct 2024 20:20:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727882105;
-	bh=PfQnazah1z/sNKvTGca/p7zxq+ml4pdTpgE2IHxjHLc=;
+	s=k20201202; t=1728418804;
+	bh=tKuDaBHAY5bS/Mvk8poPZIufDQpu9v0AUIyS0vCRI3k=;
 	h=From:Date:To:In-Reply-To:References:Subject:From;
-	b=e8BU9RJnn5UzldaRD0wW9cq+w9Hv/tLCvfQotuEPhSNmxdtgEWEz1YtKXkyZ8Tmnn
-	 WSXWI9+9PGyGfs61igXC0k32uzpIkLLNC6Q2nX+XTqLani3V7pZeY1nVS+tst0z9Vv
-	 AxOMgMT8HirYycO0kTseXXnlZrGMydBVITP7rHxPw6fwPv5A1m+ZNH/dkMC71Gvg0S
-	 mgzh1UDPs76m717F/dRaDd/8FGNk/gcIpYS2I2S9L9qbxIvS1Pz/uusq06k0md+4Xk
-	 wBE6EWAB+EEB7l8uhMnQbzaK0FVknihbpgVGPDdmxHDrx5fMs0CbnHU4dbyOvesSCp
-	 7jgabiQjiAXcA==
+	b=an+BPEgDq2KKgMRUmyBMfHze/Ua4a2WwnPaEi0BbDcBIHcPchCQr3HvtRXwmF9iL2
+	 7FdN2l3spZngaDLI8YxSwll8uNrDKJU2ikYrG7Zg8XMi7GRlIsns2JU1wXaOfoc1ks
+	 UnKl4xaUg/JL7YJownSX7d5PRxzMnSy1UcxEYoW9lg+VijXAwXQwQ8sE2OWNE4Qv6Q
+	 CYLMIi0faVONQKnlV7kdhznA/vkbD5DhGpPKoYeOjmjmQAjgW271fQZ0aJ+2+KFGa7
+	 KHxNrZTOZ4cEQ3Ph/3fG0MPTsnmOhEE3qZvxIEnsn4oZ9Cy+d8ZaMv6U2SP1eQA/1U
+	 ThQNwe8nyCptA==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 794AA3803262;
-	Wed,  2 Oct 2024 15:15:09 +0000 (UTC)
-From: abhishek via Bugspray Bot <bugbot@kernel.org>
-Date: Wed, 02 Oct 2024 15:15:12 +0000
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7699E3A8D14D;
+	Tue,  8 Oct 2024 20:20:09 +0000 (UTC)
+From: Helge Deller via Bugspray Bot <bugbot@kernel.org>
+Date: Tue, 08 Oct 2024 20:20:10 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -39,24 +39,22 @@ List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-To: perex@perex.cz, tiwai@suse.com, bugs@lists.linux.dev, 
- linux-sound@vger.kernel.org
-Message-ID: <20241002-b219303c8-ea09e4d017a3@bugzilla.kernel.org>
-In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
-References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
-Subject: Re: Mute LED light is not working on my HP laptop
+To: James.Bottomley@HansenPartnership.com, linux-parisc@vger.kernel.org, 
+ bugs@lists.linux.dev, deller@gmx.de
+Message-ID: <20241008-b219339c6-954abcc8dad2@bugzilla.kernel.org>
+In-Reply-To: <20241001-b219339c0-15109b153aef@bugzilla.kernel.org>
+References: <20241001-b219339c0-15109b153aef@bugzilla.kernel.org>
+Subject: Re: calling getcpu with misaligned address causes kernel panic
 X-Bugzilla-Product: Linux
 X-Bugzilla-Component: Kernel
 X-Mailer: bugspray 0.1-dev
 
-abhishek writes via Kernel.org Bugzilla:
+Helge Deller writes via Kernel.org Bugzilla:
 
-Hi,
-The patch has been included in the 6.12-rc1.
+Richard Henderson posted another series of patches:
+https://lists.nongnu.org/archive/html/qemu-devel/2024-10/msg00919.html
 
-link : https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=d75dba49744478c32f6ce1c16b5f391c2d5cef5f
-
-View: https://bugzilla.kernel.org/show_bug.cgi?id=219303#c8
+View: https://bugzilla.kernel.org/show_bug.cgi?id=219339#c6
 You can reply to this message to join the discussion.
 -- 
 Deet-doot-dot, I am a bot.
