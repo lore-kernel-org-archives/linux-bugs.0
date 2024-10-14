@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6DBF9C0;
-	Tue,  8 Oct 2024 20:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24A81C876F;
+	Mon, 14 Oct 2024 19:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728418804; cv=none; b=iCCk82WWH6VE0ItqZKgcCj8iq5KNk4haYh17Y0tL1uW6SoLsHjDcGZPn6raLXaSTi0sBoy5FKR8Od9j8cjxgf8+c+mi0UwvunczvtOJI/T271FHntbMj7Bt1/btDgCQdCRoROqVwrCH485ipSI0WX4+TuItFk+D/1kXGJZwJ5rg=
+	t=1728932404; cv=none; b=dKNZa07E66INaxn9S+Y717gWN20N9jV7DBv/G5KI/BggyxJHQygm+1PuR6oGQVN36OyesrwXn+Tt5LG8IM1eWDded9+Cd0vdjXAfAwN+Y3iEDgFrgMDG/RJzHD4KyvwjOt0M9HfXBa4BvBoiDLYPZI/7/ddNFrbGaVAdBxAXPCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728418804; c=relaxed/simple;
-	bh=tKuDaBHAY5bS/Mvk8poPZIufDQpu9v0AUIyS0vCRI3k=;
+	s=arc-20240116; t=1728932404; c=relaxed/simple;
+	bh=8hvrdxu8RGfaKAbqDPtekYUWxLzhBHuc4+/i36zmOjQ=;
 	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
-	 References:Subject; b=HmK36Srz46rXJMOfRpCLJky3IxaDTjFpBSiIxRzdGEbh30TzsL/LM40Vf6qBwcImHWyicznBANmXjVyXAanm8zl+xgToIw8aIzvhT62Wi+NyYJM2glhWj94V9V0y2yFvH7EUMaPqUVg8sUWMa8D6GI/aqUzHK3I8R7HxZPquRiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=an+BPEgD; arc=none smtp.client-ip=10.30.226.201
+	 References:Subject; b=G+D0VZW6Nv0PA7rYpNHXXEn6trYIISrlQPMP9xyMS38YcXNVi/Ex2B2OwSEOC2hy/MKR+SKMQI2WNV24iaclkY5P7OEVI1dctMU4SbNeMn4aVSmZjeQ+ciGSt4ohGcdhrnU05UphfV7qmRrlV9pIBfuSuKcQFvbtO+1u03Ee3WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRi4lSTp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="an+BPEgD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2133CC4CEC7;
-	Tue,  8 Oct 2024 20:20:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRi4lSTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C4D0C4CEC3;
+	Mon, 14 Oct 2024 19:00:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728418804;
-	bh=tKuDaBHAY5bS/Mvk8poPZIufDQpu9v0AUIyS0vCRI3k=;
+	s=k20201202; t=1728932404;
+	bh=8hvrdxu8RGfaKAbqDPtekYUWxLzhBHuc4+/i36zmOjQ=;
 	h=From:Date:To:In-Reply-To:References:Subject:From;
-	b=an+BPEgDq2KKgMRUmyBMfHze/Ua4a2WwnPaEi0BbDcBIHcPchCQr3HvtRXwmF9iL2
-	 7FdN2l3spZngaDLI8YxSwll8uNrDKJU2ikYrG7Zg8XMi7GRlIsns2JU1wXaOfoc1ks
-	 UnKl4xaUg/JL7YJownSX7d5PRxzMnSy1UcxEYoW9lg+VijXAwXQwQ8sE2OWNE4Qv6Q
-	 CYLMIi0faVONQKnlV7kdhznA/vkbD5DhGpPKoYeOjmjmQAjgW271fQZ0aJ+2+KFGa7
-	 KHxNrZTOZ4cEQ3Ph/3fG0MPTsnmOhEE3qZvxIEnsn4oZ9Cy+d8ZaMv6U2SP1eQA/1U
-	 ThQNwe8nyCptA==
+	b=TRi4lSTpxe4wvFUIbJTBM/61Jdj5z7J1AyNLhUHduQKHTcFLSSM8NvweVP+19eUGw
+	 Xg18arKbQrtIqzQRVHMepaxpLjkGjSRYyQK+cQ4x8XKCptt5Kjyf5QgIcDpY8sslIs
+	 6EKsNpa/7WxpeC8Kozoq+abZ5sQJ/kUeMU+5au9r8G1TfSEl80ETK3mbfa2ncmvlEa
+	 HHzBgJW/LlX342YQzqOXb1oE/Qyo6YMYWhwNj1mYXPoUP1/5Ower7EEkP5qBMsiwWu
+	 sUpfZQkzT56LbvTbeS7Hd0JsxO6j75LRJDcpb0y9lOCFoGXEOFwXvE0gbTV0UmMuML
+	 m2D1sBDQiHULQ==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7699E3A8D14D;
-	Tue,  8 Oct 2024 20:20:09 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7A9653822E4C;
+	Mon, 14 Oct 2024 19:00:10 +0000 (UTC)
 From: Helge Deller via Bugspray Bot <bugbot@kernel.org>
-Date: Tue, 08 Oct 2024 20:20:10 +0000
+Date: Mon, 14 Oct 2024 19:00:11 +0000
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
@@ -39,9 +39,9 @@ List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-To: James.Bottomley@HansenPartnership.com, linux-parisc@vger.kernel.org, 
- bugs@lists.linux.dev, deller@gmx.de
-Message-ID: <20241008-b219339c6-954abcc8dad2@bugzilla.kernel.org>
+To: linux-parisc@vger.kernel.org, bugs@lists.linux.dev, deller@gmx.de, 
+ James.Bottomley@HansenPartnership.com
+Message-ID: <20241014-b219339c7-43930f42ff48@bugzilla.kernel.org>
 In-Reply-To: <20241001-b219339c0-15109b153aef@bugzilla.kernel.org>
 References: <20241001-b219339c0-15109b153aef@bugzilla.kernel.org>
 Subject: Re: calling getcpu with misaligned address causes kernel panic
@@ -51,10 +51,10 @@ X-Mailer: bugspray 0.1-dev
 
 Helge Deller writes via Kernel.org Bugzilla:
 
-Richard Henderson posted another series of patches:
-https://lists.nongnu.org/archive/html/qemu-devel/2024-10/msg00919.html
+This is now fixed in git head of qemu and can be closed:
+https://gitlab.com/qemu-project/qemu/-/commit/99746de61262fd5cf80eacfdb513e8d40e9107e8
 
-View: https://bugzilla.kernel.org/show_bug.cgi?id=219339#c6
+View: https://bugzilla.kernel.org/show_bug.cgi?id=219339#c7
 You can reply to this message to join the discussion.
 -- 
 Deet-doot-dot, I am a bot.
