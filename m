@@ -1,61 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E9D1624FE
-	for <bugs@lists.linux.dev>; Fri, 18 Jul 2025 14:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FADB1C8604
+	for <bugs@lists.linux.dev>; Thu, 14 Aug 2025 14:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752850788; cv=none; b=GqC5xXHVkMihmBIcDgIu4MEal6+phRw8KltoFa7KZhZW63rXH/8/rw6NOPKvsC+yARWzRMqycaBIqGnS+w5ULES3EN3ce97b0VQdHvxDU86+8jCkulT1DRL0z4bIBy0I6kC5ZSWB7xDlFlLktJFShwiWgwR3ZO9ABB2+lVJ9ENM=
+	t=1755182260; cv=none; b=OXSIxe0frc6l0VomVW1WIeYDhD7EhAvM6ou5UTIOabomVnq5GATmxGr1NO3q0voKwJrQUO6iJhtJ85lXyLuxqyHyKTyQ+8+qkYkRZMUUdnwZ3HvTcAIvEiq7fB5EgczlS1lnvhyH3RXVOXC/kPn7irw9W4V6RZJqSs72GcTTd1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752850788; c=relaxed/simple;
-	bh=BKxxqLAJ3ARNQoXIQ0wHIDVgSvOabUEatQfmDxdd/To=;
-	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
-	 References:Subject; b=I2jtqSgiSrsRaK/6nPKrYOzRkWbln9A+wItHlbJ3i4+I0LkUwNPPYfJkNKWVC2xriBNVmK2xk9NSyOa181yujob+3LmUJA1+NIbq3FAtFIH/iUaAXEWDOb7uCDFWClieN8JtD+czz92yDqKiPZuIunqkW1IT4AeMRq0afOiZhX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAe1nXq1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755182260; c=relaxed/simple;
+	bh=6LgA7GylOuPlAE7lu79YVHTi8yuQPdLDmvIbvtSdQ2U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sY3LjXVj3Z1Q9fNTldKBvx2y4cT265tZ98s8aRj6nrzZiSG81EJ2iURjy+te31OQE5971E+yH/xnNb9b3FB6l2pDFJBqetqD1LJKjFqASIm1a3r7NYneJ1N5MMsU/WL5tomfwI8sgQVdrDGutT/3ENJXXVcjYyedlsiA5OPiXbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYEHhZwa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAe1nXq1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0557C4CEEB;
-	Fri, 18 Jul 2025 14:59:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYEHhZwa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFF98C4CEFA
+	for <bugs@lists.linux.dev>; Thu, 14 Aug 2025 14:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752850787;
-	bh=BKxxqLAJ3ARNQoXIQ0wHIDVgSvOabUEatQfmDxdd/To=;
-	h=From:Date:To:In-Reply-To:References:Subject:From;
-	b=XAe1nXq1yah2LK2sf0rVIjpQ15RaIMRa0UthgpmZrUNGq5iKeb5RfJcT+Prq2NVrc
-	 4rslOiIrw1X11cJSzL3WKoMKvrNSRtDMPF/deh5GrrZLES4+ooFbhX8Z38ffb56fro
-	 AWk49ApoO7l/oDK0mgU7LmfF7nNy7FB1O3W4u+wlMSWFWbBSlh9xbDuRJjzaLVE64V
-	 5q/2tSS07y3tMJYf5BFZwxO3tqidg6KF0DTBCRVys5PkiaFrRjPZy2fFoqmC/V+BGO
-	 bsQPXzSy7Ge0hQTM9MJdBG9meo30UeJZFy20X6Kr7GZJ5vQlzot0MElRsR98B6DPvC
-	 1xvf0xCcvh+hg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 748BD383BA3C;
-	Fri, 18 Jul 2025 15:00:08 +0000 (UTC)
-From: Ali Polatel via Bugspray Bot <bugbot@kernel.org>
-Date: Fri, 18 Jul 2025 15:00:10 +0000
+	s=k20201202; t=1755182260;
+	bh=6LgA7GylOuPlAE7lu79YVHTi8yuQPdLDmvIbvtSdQ2U=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dYEHhZwaqTvn+JVB6mm4v9XaReY5rHpHmGQOFf8SYbT89bKc7TEtkfLobwZgPwsTh
+	 Q8mqteXVXaJIxHbtt3D7w6SLYe2AtH57BH7/ZTAChtlHIaZ5ZBeR1674ZeuNCmKJom
+	 Y+mUmJ+7IfSe9+4ltrzqRmXIzvBZ5G1tk5L6osSysjTx2BiTfahYO3OjaiEzLmaXWO
+	 TfBMWsMCKqATB3RMznmnAFbtMkM6ABopqhFGae7zzeXfHKYdAi5yA3NpykFWbOcfkH
+	 hGesiqofVm88KmuqipturUX6w3ZOPTZNaWGeSkpnk3DfDuK1kvI6KVx3e2DCNMMXbP
+	 QCrDE8Tz1qIuA==
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b47174c3817so650064a12.2
+        for <bugs@lists.linux.dev>; Thu, 14 Aug 2025 07:37:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0YysT/zoj5ksMP4yn1Pc34G0sI2lur0bim2VHs+9MMGhfcE5GlKk
+	ZXDUp6rDY+F7ZKd3VRkn6kVsF0u2CTXCO6kKm/nH1XAkX+l0tiQP6hdaMXCgiwtMIHudo6eydOL
+	5fXHtyDrZnbUFx5UPd1FmnJuFtf++2Q==
+X-Google-Smtp-Source: AGHT+IHS0uaP7CItqCto1gKq+ALdXQ8qoYfqn/fWbxiMih47HHTXn0CntaSCOaendxQ0HffHBSsodaKc4ysKqNiLXYU=
+X-Received: by 2002:a17:903:2ace:b0:235:7c6:ebdb with SMTP id
+ d9443c01a7336-244584afbb6mr45180395ad.10.1755182259487; Thu, 14 Aug 2025
+ 07:37:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: bugs@lists.linux.dev
 List-Id: <bugs.lists.linux.dev>
 List-Subscribe: <mailto:bugs+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:bugs+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-To: akpm@linux-foundation.org, linux-mm@kvack.org, bugs@lists.linux.dev
-Message-ID: <20250718-b219227c6-9e9c2516da7c@bugzilla.kernel.org>
-In-Reply-To: <20240912-b219227c0-78bee9e213fc@bugzilla.kernel.org>
-References: <20240912-b219227c0-78bee9e213fc@bugzilla.kernel.org>
-Subject: Re: MDWE does not prevent read-only, executable, shared memory
- regions to be updated by backing file writes
-X-Bugzilla-Product: Linux
-X-Bugzilla-Component: Kernel
-X-Mailer: bugspray 0.1-dev
+References: <CAHjEvi5mb+1-zD+x1_Bp_0Z2Aov7KDyFksbU4PZKFxmrPa77VQ@mail.gmail.com>
+In-Reply-To: <CAHjEvi5mb+1-zD+x1_Bp_0Z2Aov7KDyFksbU4PZKFxmrPa77VQ@mail.gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 14 Aug 2025 22:38:48 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8L_tJwL77wqBVxrmoMLEGgXue8wW5dz8TLfUg4Ehn4dw@mail.gmail.com>
+X-Gm-Features: Ac12FXzl572Bk8E1YjFThAkpLtwFo2QIH4KQyj4nJ4VDeDrZEEqFg_h6oT4-G7M
+Message-ID: <CAAOTY_8L_tJwL77wqBVxrmoMLEGgXue8wW5dz8TLfUg4Ehn4dw@mail.gmail.com>
+Subject: Re: Commit d6e25b3590 breaks external video (HDMI) on mt8173
+ (chromebook oak)
+To: andy@chernyak.nl, DRI Development <dri-devel@lists.freedesktop.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Cc: bugs@lists.linux.dev, granquet@baylibre.com, 
+	angelogioacchino.delregno@collabora.com, chunkuang.hu@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ali Polatel writes via Kernel.org Bugzilla:
+Forward to dri-devel and linux-mediatek.
 
-As of version 3.37.0, Syd sandbox mitigates this by a proactive file writability check prior to mapping PROT_READ|PROT_EXEC mappings when memory restrictions are on, you may find more information in the last paragraph of https://man.exherbo.org/syd.7.html#Memory-Deny-Write-Execute_Protections
-
-View: https://bugzilla.kernel.org/show_bug.cgi?id=219227#c6
-You can reply to this message to join the discussion.
--- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (bugspray 0.1-dev)
-
+Andy Chernyak <andy.chernyak@gmail.com> =E6=96=BC 2025=E5=B9=B47=E6=9C=882=
+=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=8811:12=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Kernel 6.16 has external video (both hdmi and displayport-over-usbc) brok=
+en (black screen) on mt8173-based chromebooks (platform codename "oak", dev=
+ice codename "hana"). Bisect points finger to following commit:
+>
+> From d6e25b3590a0679bca1a1becc04e3999f1dfd461
+> From: Guillaume Ranquet <granquet@baylibre.com>
+> Date: Tue, 15 Apr 2025 12:43:05 +0200
+> Subject: drm/mediatek: hdmi: Use regmap instead of iomem for main registe=
+rs
+> In preparation for the addition of a new version of the HDMI IP
+> which will need to share its iospace between multiple subdrivers,
+> and in preparation for moving out the common bits between the two,
+> migrate this driver to fully use regmap.
+>
+> Reverting d6e25b3590 with "patch -R" on top of 6.16-rc4 fixes this.
